@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1  as ListItem
+import UReader 0.1
 import "components"
 import "ui"
 
@@ -25,6 +26,12 @@ MainView {
     height: units.gu(75)
 
     property int coverHeight: units.gu(18)
+
+    FilesModel{
+        id: files
+    }
+
+    Component.onCompleted: console.log("files are" + files.files);
     PageStack{
         id: pageStack
         Component.onCompleted: push(topPage)
