@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1  as ListItem
+import U1db 1.0 as U1db
 import UReader 0.1
 import "components"
 import "ui"
@@ -10,28 +11,46 @@ import "ui"
 */
 
 MainView {
+    id: mainView
     // objectName for functional testing purposes (autopilot-qt5)
-        objectName: "mainView"
+    objectName: "mainView"
 
     // Note! applicationName needs to match the "name" field of the click manifest
-        applicationName: "com.bobo-324.uReader"
+    applicationName: "com.bobo-324.ureader"
 
     /*
      This property enables the application to change orientation
      when the device is rotated. The default is false.
     */
     //automaticOrientation: true
-
     width: units.gu(50)
     height: units.gu(75)
 
     property int coverHeight: units.gu(18)
 
+    signal goToTopPage
+
     FilesModel{
         id: files
     }
 
-    Component.onCompleted: console.log("files are" + files.files);
+    Style{
+        id: stylea
+    }
+
+    Item{
+        U1db.Database {
+            id: aDatabase
+            path: "aU1DbDatabase"
+        }
+        U1db.Document {
+            id: aDocument
+            database: aDatabase
+            docId: 'uReader'
+            create: true
+            defaults: { "history": {} }
+        }
+    }
     PageStack{
         id: pageStack
         Component.onCompleted: push(topPage)

@@ -39,13 +39,14 @@ QVariantList FilesModel::indexTxt(QFont font, int height, int width, QString tex
 
     QVariantList list;
     QFontMetrics fm=QFontMetrics(font);
-    int PageLineNum = height / fm.lineSpacing();
-//    qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
+    int PageLineNum = height / qMax(fm.height(), fm.lineSpacing());
+    qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
     int PageLineNow = 0;
     int LineWidthNow = 0;
     int newPageOffset=0;
     list.append(0);
     int FileContentSize = text.size();
+//    int i = 0;
     for (int offset = 0; offset < FileContentSize; offset++){
         int b = text[offset].toLatin1();
 
@@ -65,9 +66,12 @@ QVariantList FilesModel::indexTxt(QFont font, int height, int width, QString tex
             }
         }
 
-        if (PageLineNow > PageLineNum) {
+        if (PageLineNow >= PageLineNum) {
             PageLineNow = 0;
             list.append(newPageOffset);
+//            i++;
+            offset --;
+//            if(i==3)
 //            return list;
         }
     }

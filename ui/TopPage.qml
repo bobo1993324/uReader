@@ -7,6 +7,7 @@ import "../components"
 Page {
     id: topPage
     title:"UReader"
+
     Flickable{
         anchors.fill: parent
         contentWidth: parent.width
@@ -59,6 +60,7 @@ Page {
                         height: coverHeight
                         width: height * 2 / 3
                         title: modelData
+                        completion: aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount
                         onClicked: {
                             readPage.fileName = modelData;
                             pageStack.push(readPage);

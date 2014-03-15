@@ -3,7 +3,7 @@ import Ubuntu.Components 0.1
 UbuntuShape{
     id: root
     property string title
-    property var completion: 0.1
+    property real completion: 0
 
     signal clicked
     signal pressAndHold
@@ -16,6 +16,7 @@ UbuntuShape{
         visible: completion > 0
         onPaint:{
             var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
             ctx.beginPath();
             ctx.arc(width / 2, height / 2, 20, -0.5 * Math.PI, 2 * Math.PI * completion - 0.5 * Math.PI , false);
             ctx.lineWidth = 10;
@@ -45,5 +46,11 @@ UbuntuShape{
         onClicked: root.clicked()
         onPressAndHold: root.pressAndHold()
     }
-
+    Connections{
+        target: mainView
+        onGoToTopPage:{
+            console.log("topPage");
+            canvas.requestPaint();
+        }
+    }
 }

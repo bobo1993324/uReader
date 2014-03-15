@@ -6,7 +6,7 @@ MouseArea {
     signal swipeUp;
     signal swipeDown;
 
-    anchors.fill: parent
+//    anchors.fill: parent
     property int startX;
     property int startY;
 
