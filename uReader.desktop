@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=uReader
-Exec=/usr/bin/qmlscene $@ /usr/share/uReader/uReader.qml
+Exec=qmlscene ./uReader.qml -I ./plugins
 Icon=qmlscene
 Terminal=false
 Type=Application

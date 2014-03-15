@@ -8,8 +8,8 @@
             "desktop": "uReader.desktop"
         }
     },
-    "maintainer": "",
-    "name": "com.ubuntu.developer.username.ureader",
+    "maintainer": "bobo1993324@gmail.com",
+    "name": "com.bobo-324.ureader",
     "title": "uReader",
     "version": "0.1"
 }
