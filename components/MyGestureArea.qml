@@ -1,15 +1,19 @@
 import QtQuick 2.0
-
+import Ubuntu.Components 0.1
 MouseArea {
+
     signal swipeRight;
     signal swipeLeft;
     signal swipeUp;
     signal swipeDown;
 
-//    anchors.fill: parent
+    signal realClicked(variant mouse);
+
     property int startX;
     property int startY;
 
+    property int threshold1: units.gu(6)
+    property int threshold2: units.gu(4)
     onPressed: {
         startX = mouse.x;
         startY = mouse.y;
@@ -19,20 +23,22 @@ MouseArea {
         var deltax = mouse.x - startX;
         var deltay = mouse.y - startY;
 
-        if (Math.abs(deltax) > 50 || Math.abs(deltay) > 50) {
-            if (deltax > 30 && Math.abs(deltay) < 30) {
+        if (Math.abs(deltax) > threshold1 || Math.abs(deltay) > threshold1) {
+            if (deltax > threshold2 && Math.abs(deltay) < threshold2) {
                 // swipe right
                 swipeRight();
-            } else if (deltax < -30 && Math.abs(deltay) < 30) {
+            } else if (deltax < -threshold2 && Math.abs(deltay) < threshold2) {
                 // swipe left
                 swipeLeft();
-            } else if (Math.abs(deltax) < 30 && deltay > 30) {
+            } else if (Math.abs(deltax) < threshold2 && deltay > threshold2) {
                 // swipe down
                 swipeDown();
-            } else if (Math.abs(deltax) < 30 && deltay < 30) {
+            } else if (Math.abs(deltax) < threshold2 && deltay < threshold2) {
                 // swipe up
                 swipeUp();
             }
+        } else {
+            realClicked(mouse);
         }
     }
 }

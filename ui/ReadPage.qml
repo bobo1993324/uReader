@@ -213,6 +213,15 @@ Page{
         height: progressSliderRect.y
         onSwipeRight: prevPage()
         onSwipeLeft: nextPage()
+        onRealClicked: {
+            if (mouse.x < width * 0.3) {
+                prevPage();
+            } else if (mouse.x > width * 0.7) {
+                nextPage();
+            } else if (!readPage.toolbar.animating){
+                readPage.toolbar.open();
+            }
+        }
     }
 
     function nextPage(){
