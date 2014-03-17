@@ -16,11 +16,14 @@ Page{
     }
 
     onHeightChanged: {
-        progressSliderRect.y = height;
-        timer1.start()
+        if (readPage.visible) {
+            progressSliderRect.y = height;
+            timer1.start()
+        }
     }
 
     onFileNameChanged: {
+//        console.log("onFileNameChanged")
         var newContents = aDocument.contents
         if(!newContents.history[fileName]){
             newContents.history[fileName] =
@@ -44,20 +47,18 @@ Page{
     }
 
     function indexAndSet(){
-        try {
+        if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
-            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
-            //update totalCount
-            var tmp = aDocument.contents;
-            if (tmp.history[fileName].totalCount != content.length) {
-                tmp.history[fileName].totalCount = content.length
-                aDocument.contents = tmp;
-            }
-
-        } catch(e){ currentIndexListIdx = 0}
+        //update totalCount
+        var tmp = aDocument.contents;
+        if (tmp.history[fileName].totalCount != content.length) {
+            tmp.history[fileName].totalCount = content.length
+            aDocument.contents = tmp;
+        }
 
         indexList = files.indexTxt(page1.font, page1.height, page1.width, content);
-
+        currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
+//        console.log("currentIndexListIdx is " + currentIndexListIdx + "readTo is " + aDocument.contents.history[fileName].readTo)
         if(!currentIndexListIdx || currentIndexListIdx >= content.length)
             currentIndexListIdx = 0;
         //load current page
@@ -65,7 +66,7 @@ Page{
         pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
     }
 
-    onCurrentIndexListIdxChanged: {
+    function saveReadTo(){
         var newContents = aDocument.contents
         if(newContents.history[fileName]){
             newContents.history[fileName].readTo = indexList[currentIndexListIdx];
@@ -176,6 +177,7 @@ Page{
             anchors.horizontalCenter: parent.horizontalCenter
             onValueChanged: {
                 currentIndexListIdx = Math.floor(value);
+                saveReadTo();
                 pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
             }
 
@@ -215,8 +217,10 @@ Page{
         onSwipeLeft: nextPage()
         onRealClicked: {
             if (mouse.x < width * 0.3) {
+                console.log("clicked left")
                 prevPage();
             } else if (mouse.x > width * 0.7) {
+                console.log("clicked right")
                 nextPage();
             } else if (!readPage.toolbar.animating){
                 readPage.toolbar.open();
@@ -236,6 +240,7 @@ Page{
             if(currentPageListIdx > 2)
                 currentPageListIdx = 0
             currentIndexListIdx ++;
+            saveReadTo();
         }
     }
     function prevPage(){
@@ -251,12 +256,14 @@ Page{
             if(currentPageListIdx < 0)
                 currentPageListIdx = 2;
             currentIndexListIdx --;
+            saveReadTo();
         }
     }
     function getPageIdx(idx){
         //TODO binary search
         for (var i = 1; i < indexList.length; i++) {
-            if (idx <= indexList[i]) {
+            if (idx < indexList[i]) {
+//                console.log(indexList[i] + " " + (i-1))
                 return i - 1;
             }
         }
