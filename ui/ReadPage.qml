@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../components"
+import Ubuntu.Components.Popups 0.1
+
 Page{
     id: readPage
     property var pageList : [page0, page1, page2]
@@ -10,7 +12,8 @@ Page{
     property int currentIndexListIdx
     property string content;
     property int mARGIN : units.gu(4)
-    property int fontSize: 11
+    property int fontSize: units.gu(1.5)
+    property string encoding
     onWidthChanged: {
         timer1.start()
     }
@@ -25,17 +28,18 @@ Page{
     onFileNameChanged: {
 //        console.log("onFileNameChanged")
         var newContents = aDocument.contents
-        if(!newContents.history[fileName]){
-            newContents.history[fileName] =
-                    {
-                readTo: 0,
-                totalCount: content.length,
-                fontSize: fontSize
-            };
+        if (!newContents.history[fileName]) {
+            newContents.history[fileName] ={};
             aDocument.contents = newContents
+        } else {
+            if (newContents.history[fileName].encoding) {
+                encoding = newContents.history[fileName].encoding;
+            } else {
+                encoding = "UTF-8"
+            }
         }
 
-        content = files.readFile(fileName, "GB2312");
+        content = files.readFile(fileName, encoding);
         timer1.start()
     }
 
@@ -49,30 +53,19 @@ Page{
     function indexAndSet(){
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
+        else
+            fontSize = units.gu(1.5)
         //update totalCount
-        var tmp = aDocument.contents;
-        if (tmp.history[fileName].totalCount != content.length) {
-            tmp.history[fileName].totalCount = content.length
-            aDocument.contents = tmp;
-        }
-
         indexList = files.indexTxt(page1.font, page1.height, page1.width, content);
-        currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
-//        console.log("currentIndexListIdx is " + currentIndexListIdx + "readTo is " + aDocument.contents.history[fileName].readTo)
-        if(!currentIndexListIdx || currentIndexListIdx >= content.length)
+        console.log(indexList);
+        if (aDocument.contents.history[fileName].totalCount != content.length) {
             currentIndexListIdx = 0;
+        } else {
+            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
+        }
         //load current page
 
         pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
-    }
-
-    function saveReadTo(){
-        var newContents = aDocument.contents
-        if(newContents.history[fileName]){
-            newContents.history[fileName].readTo = indexList[currentIndexListIdx];
-            aDocument.contents = newContents
-        }
-        console.log(JSON.stringify(aDocument.contents))
     }
 
     onFontSizeChanged: {
@@ -152,7 +145,7 @@ Page{
             Rectangle{
                 id: progressRec1
                 height: parent.height
-                width: parent.width * currentIndexListIdx / indexList.length
+                width: parent.width * currentIndexListIdx / (indexList.length - 2)
                 color: "#0A67A3"
             }
 
@@ -177,7 +170,7 @@ Page{
             anchors.horizontalCenter: parent.horizontalCenter
             onValueChanged: {
                 currentIndexListIdx = Math.floor(value);
-                saveReadTo();
+                saveAll();
                 pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
             }
 
@@ -229,7 +222,7 @@ Page{
     }
 
     function nextPage(){
-        if(currentIndexListIdx < indexList.length -1){
+        if(currentIndexListIdx < indexList.length -2){
             //load next page
             pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].text = content.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
 
@@ -240,7 +233,7 @@ Page{
             if(currentPageListIdx > 2)
                 currentPageListIdx = 0
             currentIndexListIdx ++;
-            saveReadTo();
+            saveAll();
         }
     }
     function prevPage(){
@@ -256,7 +249,7 @@ Page{
             if(currentPageListIdx < 0)
                 currentPageListIdx = 2;
             currentIndexListIdx --;
-            saveReadTo();
+            saveAll();
         }
     }
     function getPageIdx(idx){
@@ -268,6 +261,24 @@ Page{
             }
         }
         return 0;
+    }
+
+    function setNewEncoding(newEncoding){
+        encoding = newEncoding;
+        content = files.readFile(fileName, encoding);
+        indexAndSet();
+        saveAll();
+    }
+
+    function saveAll(){
+        var newContents = aDocument.contents
+        if(newContents.history[fileName]){
+            newContents.history[fileName].readTo = indexList[currentIndexListIdx];
+            newContents.history[fileName].encoding = encoding;
+            newContents.history[fileName].totalCount = content.length;
+            aDocument.contents = newContents
+        }
+        console.log(JSON.stringify(aDocument.contents))
     }
 
     tools:ToolbarItems{
@@ -323,6 +334,17 @@ Page{
             }
         }
 
+        ToolbarButton{
+            id: encodingButton
+            action: Action{
+                iconSource: "../img/encoding.svg"
+                text: "Encoding"
+                onTriggered: {
+                    PopupUtils.open(encodingPopover, encodingButton);
+                }
+            }
+        }
+
         back: ToolbarButton{
             action: Action{
                 text: "Back"
@@ -334,4 +356,9 @@ Page{
             }
         }
     }
+
+    EncodingPopover {
+        id: encodingPopover
+    }
+
 }
