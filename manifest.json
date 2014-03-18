@@ -1,15 +1,15 @@
 {
     "architecture": "all",
-    "description": "description of uReader",
+    "description": "description of qmlTextReader",
     "framework": "ubuntu-sdk-13.10",
     "hooks": {
-        "uReader": {
-            "apparmor": "uReader.json",
-            "desktop": "uReader.desktop"
+        "qmlTextReader": {
+            "apparmor": "qmlTextReader.json",
+            "desktop": "qmlTextReader.desktop"
         }
     },
-    "maintainer": "bobo1993324@gmail.com",
-    "name": "com.bobo-324.ureader",
-    "title": "uReader",
+    "maintainer": "Boren Zhang <bobo1993324@gmail.com>",
+    "name": "com.bobo-324.qmltextreader",
+    "title": "QmlTextReader",
     "version": "0.1"
 }

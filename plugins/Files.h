@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QFont>
 #include <QFontMetrics>
+#include <QStringBuilder>
 class FilesModel : public QObject{
     Q_OBJECT
     Q_PROPERTY(QStringList files READ files)
@@ -12,4 +13,5 @@ public:
     QStringList files();
     Q_INVOKABLE QString readFile(QString fileName, QString encoding);
     Q_INVOKABLE QVariantList indexTxt(QFont font, int height, int width, QString text);
+    Q_INVOKABLE QVariantList indexTxtWrapped(QFont font, int height, int width, QString text);
 };

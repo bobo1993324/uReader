@@ -16,7 +16,7 @@ MainView {
     objectName: "mainView"
 
     // Note! applicationName needs to match the "name" field of the click manifest
-    applicationName: "com.bobo-324.ureader"
+    applicationName: "com.bobo-324.qmltextreader"
 
     /*
      This property enables the application to change orientation

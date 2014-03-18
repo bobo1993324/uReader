@@ -60,7 +60,7 @@ Page {
                         height: coverHeight
                         width: height * 2 / 3
                         title: modelData
-                        completion: aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount
+                        completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
                         onClicked: {
                             readPage.fileName = modelData;
                             pageStack.push(readPage);

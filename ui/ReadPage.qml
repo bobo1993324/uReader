@@ -11,9 +11,11 @@ Page{
     property int currentPageListIdx
     property int currentIndexListIdx
     property string content;
+    property string translatedContent; //original content with endline added
     property int mARGIN : units.gu(4)
     property int fontSize: units.gu(1.5)
     property string encoding
+    property bool wordWrap
     onWidthChanged: {
         timer1.start()
     }
@@ -26,7 +28,6 @@ Page{
     }
 
     onFileNameChanged: {
-//        console.log("onFileNameChanged")
         var newContents = aDocument.contents
         if (!newContents.history[fileName]) {
             newContents.history[fileName] ={};
@@ -40,6 +41,22 @@ Page{
         }
 
         content = files.readFile(fileName, encoding);
+        content = content.replace(/\t/g, "    ");
+        //count space to see if need to warp
+        var spaceCount = 0;
+        for (var i = 0; i < 1000; i++) {
+//            console.log(content[i])
+            if (content[i] === ' ' ) {
+                spaceCount ++;
+            }
+        }
+        console.log("space Count is " + spaceCount);
+        if (spaceCount > 70) {
+            wordWrap = true;
+        } else {
+            wordWrap = false;
+        }
+
         timer1.start()
     }
 
@@ -55,9 +72,13 @@ Page{
             fontSize = aDocument.contents.history[fileName].fontSize;
         else
             fontSize = units.gu(1.5)
-        //update totalCount
-        indexList = files.indexTxt(page1.font, page1.height, page1.width, content);
-        console.log(indexList);
+        var tmp;
+        if (!wordWrap)
+            tmp = files.indexTxt(page1.font, page1.height, page1.width, content);
+        else
+            tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content);
+        indexList = tmp[0];
+        translatedContent = tmp[1];
         if (aDocument.contents.history[fileName].totalCount != content.length) {
             currentIndexListIdx = 0;
         } else {
@@ -65,7 +86,7 @@ Page{
         }
         //load current page
 
-        pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+        pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
     }
 
     onFontSizeChanged: {
@@ -80,7 +101,7 @@ Page{
     TextEdit{
         id: page0
         text: "Page 0"
-        font.family: "WenQuanYi Micro Hei"
+        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         readOnly: true
         width: parent.width - mARGIN * 2
         x: currentPageListIdx == 0 ? mARGIN : (currentPageListIdx == 1 ? -parent.width : parent.width)
@@ -88,16 +109,25 @@ Page{
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
 
-        wrapMode: Text.WrapAnywhere
+        wrapMode: Text.NoWrap
         Behavior on x{
             UbuntuNumberAnimation{}
         }
 
         font.pointSize: fontSize
+
     }
+//    Rectangle{
+//        width: parent.width - mARGIN * 2
+//        height: parent.height - progressBar.height - mARGIN * 2
+//        x: mARGIN
+//        y: mARGIN
+//        z: -10
+//    }
+
     TextEdit{
         id: page1
-        font.family: "WenQuanYi Micro Hei"
+        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         text: "Page 1 (Swipe to turn)"
         readOnly: true
         width: parent.width - mARGIN * 2
@@ -105,7 +135,7 @@ Page{
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
 
-        wrapMode: Text.WrapAnywhere
+        wrapMode: Text.NoWrap
         Behavior on x{
             UbuntuNumberAnimation{}
         }
@@ -114,14 +144,14 @@ Page{
     TextEdit{
         id: page2
         text: "Page 2"
-        font.family: "WenQuanYi Micro Hei"
+        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         readOnly: true
         width: parent.width - mARGIN * 2
         x: currentPageListIdx == 2 ? mARGIN : (currentPageListIdx == 0 ? -parent.width : parent.width)
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
 
-        wrapMode: Text.WrapAnywhere
+        wrapMode: Text.NoWrap
         Behavior on x{
             UbuntuNumberAnimation{}
         }
@@ -171,7 +201,7 @@ Page{
             onValueChanged: {
                 currentIndexListIdx = Math.floor(value);
                 saveAll();
-                pageList[currentPageListIdx].text = content.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+                pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
             }
 
             onPressedChanged: {
@@ -224,7 +254,7 @@ Page{
     function nextPage(){
         if(currentIndexListIdx < indexList.length -2){
             //load next page
-            pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].text = content.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
+            pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
 
             pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].visible = false
             pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].visible = true
@@ -240,7 +270,7 @@ Page{
         if(currentIndexListIdx != 0){
             //load prev page
 
-            pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].text = content.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+            pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
 
             pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].visible = true
             pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].visible = false
@@ -278,7 +308,7 @@ Page{
             newContents.history[fileName].totalCount = content.length;
             aDocument.contents = newContents
         }
-        console.log(JSON.stringify(aDocument.contents))
+//        console.log(JSON.stringify(aDocument.contents))
     }
 
     tools:ToolbarItems{
