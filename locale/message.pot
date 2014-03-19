@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 23:56-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/ReadPage.qml:343
+msgid "Font +"
+msgstr ""
+
+#: ui/ReadPage.qml:355
+msgid "Font -"
+msgstr ""
+
+#: ui/ReadPage.qml:367
+msgid "Jump to"
+msgstr ""
+
+#: ui/ReadPage.qml:383
+msgid "Encoding"
+msgstr ""
+
+#: ui/ReadPage.qml:392
+msgid "Back"
+msgstr ""
+
+#: ui/TopPage.qml:9
+msgid "QmlTextReader"
+msgstr ""
+
+#: ui/TopPage.qml:51
+msgid "Files"
+msgstr ""
+
+#: components/EncodingPopover.qml:11
+msgid "UTF-8 (Universal)"
+msgstr ""
+
+#: components/EncodingPopover.qml:19
+msgid "GB2312 (Chinese)"
+msgstr ""

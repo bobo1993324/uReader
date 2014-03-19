@@ -1,0 +1,54 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2014 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Luke <bobo1993324@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 23:56-0400\n"
+"PO-Revision-Date: 2014-03-18 23:50-0400\n"
+"Last-Translator: Luke <bobo1993324@gmail.com>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ui/ReadPage.qml:343
+msgid "Font +"
+msgstr "放大"
+
+#: ui/ReadPage.qml:355
+msgid "Font -"
+msgstr "缩小"
+
+#: ui/ReadPage.qml:367
+msgid "Jump to"
+msgstr "跳转"
+
+#: ui/ReadPage.qml:383
+msgid "Encoding"
+msgstr "编码"
+
+#: ui/ReadPage.qml:392
+msgid "Back"
+msgstr "返回"
+
+#: ui/TopPage.qml:9
+msgid "QmlTextReader"
+msgstr "文本阅读"
+
+#: ui/TopPage.qml:51
+msgid "Files"
+msgstr "文件"
+
+#: components/EncodingPopover.qml:11
+msgid "UTF-8 (Universal)"
+msgstr "UTF-8 (通用)"
+
+#: components/EncodingPopover.qml:19
+msgid "GB2312 (Chinese)"
+msgstr "GB2312 (中文)"

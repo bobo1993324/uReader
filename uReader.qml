@@ -27,9 +27,6 @@ MainView {
     height: units.gu(75)
 
     property int coverHeight: units.gu(18)
-
-    signal goToTopPage
-
     FilesModel{
         id: files
     }

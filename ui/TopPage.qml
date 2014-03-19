@@ -6,7 +6,7 @@ import "../components"
 
 Page {
     id: topPage
-    title:"UReader"
+    title: i18n.tr("QmlTextReader")
 
     Flickable{
         anchors.fill: parent
@@ -48,7 +48,7 @@ Page {
 //            }
 
             ListItem.Header{
-                text:'Files'
+                text: i18n.tr("Files")
             }
             Flow{
                 spacing: units.gu(4)

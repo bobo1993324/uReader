@@ -16,6 +16,7 @@ Page{
     property int fontSize: units.gu(1.5)
     property string encoding
     property bool wordWrap
+    property bool isReady
     onWidthChanged: {
         timer1.start()
     }
@@ -28,6 +29,7 @@ Page{
     }
 
     onFileNameChanged: {
+        isReady = false;
         var newContents = aDocument.contents
         if (!newContents.history[fileName]) {
             newContents.history[fileName] ={};
@@ -40,6 +42,13 @@ Page{
             }
         }
 
+        readContent();
+
+        timer1.start()
+    }
+
+    function readContent() {
+        isReady = false;
         content = files.readFile(fileName, encoding);
         content = content.replace(/\t/g, "    ");
         //count space to see if need to warp
@@ -56,8 +65,6 @@ Page{
         } else {
             wordWrap = false;
         }
-
-        timer1.start()
     }
 
     Timer {
@@ -68,6 +75,7 @@ Page{
     }
 
     function indexAndSet(){
+        isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
         else
@@ -87,6 +95,7 @@ Page{
         //load current page
 
         pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+        isReady = true;
     }
 
     onFontSizeChanged: {
@@ -95,7 +104,7 @@ Page{
             newContents.history[fileName].fontSize = fontSize;
             aDocument.contents = newContents
         }
-        console.log(JSON.stringify(aDocument.contents))
+//        console.log(JSON.stringify(aDocument.contents))
     }
 
     TextEdit{
@@ -234,6 +243,7 @@ Page{
 
     MyGestureArea{
         id: myGestureArea
+        enabled: isReady
         width: parent.width
         height: progressSliderRect.y
         onSwipeRight: prevPage()
@@ -295,8 +305,8 @@ Page{
 
     function setNewEncoding(newEncoding){
         encoding = newEncoding;
-        content = files.readFile(fileName, encoding);
-        indexAndSet();
+        readContent();
+        timer1.start();
         saveAll();
     }
 
@@ -308,7 +318,7 @@ Page{
             newContents.history[fileName].totalCount = content.length;
             aDocument.contents = newContents
         }
-//        console.log(JSON.stringify(aDocument.contents))
+        console.log(JSON.stringify(aDocument.contents))
     }
 
     tools:ToolbarItems{
@@ -330,8 +340,9 @@ Page{
         ToolbarButton{
             action:Action{
                 iconSource: "../img/font-increase.svg"
-                text: "Font +"
+                text: i18n.tr("Font +")
                 onTriggered: {
+                    isReady = false;
                     fontSize += 2;
                     timer1.start();
                 }
@@ -341,8 +352,9 @@ Page{
         ToolbarButton{
             action:Action{
                 iconSource: "../img/font-decrease.svg"
-                text: "Font -"
+                text: i18n.tr("Font -")
                 onTriggered: {
+                    isReady = false;
                     fontSize -= 2;
                     timer1.start();
                 }
@@ -352,7 +364,7 @@ Page{
         ToolbarButton{
             action:Action{
                 iconSource: "../img/jump.svg"
-                text: "Jump to"
+                text: i18n.tr("Jump to")
                 onTriggered: {
                     progressSlider.value = currentIndexListIdx
                     progressSlider.disappearTime = 4;
@@ -368,7 +380,7 @@ Page{
             id: encodingButton
             action: Action{
                 iconSource: "../img/encoding.svg"
-                text: "Encoding"
+                text: i18n.tr("Encoding")
                 onTriggered: {
                     PopupUtils.open(encodingPopover, encodingButton);
                 }
@@ -377,11 +389,10 @@ Page{
 
         back: ToolbarButton{
             action: Action{
-                text: "Back"
+                text: i18n.tr("Back")
                 iconSource: "../img/back.svg"
                 onTriggered:{
                     pageStack.pop();
-                    mainView.goToTopPage();
                 }
             }
         }
@@ -391,4 +402,13 @@ Page{
         id: encodingPopover
     }
 
+    Rectangle {
+        visible: !isReady
+        anchors.fill: parent
+        color: Theme.palette.normal.background
+        ActivityIndicator{
+            running: !isReady;
+            anchors.centerIn: parent
+        }
+    }
 }

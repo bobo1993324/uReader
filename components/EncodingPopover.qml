@@ -8,7 +8,7 @@ Component {
         id: popover
         actions: ActionList {
             Action {
-                text: "UTF-8 (Universal)"
+                text: i18n.tr("UTF-8 (Universal)")
                 property string encValue: "UTF-8"
                 onTriggered: {
                     readPage.setNewEncoding(encValue)
@@ -16,7 +16,7 @@ Component {
                 }
             }
             Action{
-                text: "GB2312 (Chinese)"
+                text: i18n.tr("GB2312 (Chinese)")
                 property string encValue: "GB2312"
                 onTriggered: {
                     readPage.setNewEncoding(encValue)
@@ -28,7 +28,7 @@ Component {
             text: action.text
             Label{
                 text: "<"
-                visible: readPage.encoding == action.encValue
+                visible: readPage.encoding === action.encValue
                 anchors {
                     verticalCenter: parent.verticalCenter
                     right: parent.right
