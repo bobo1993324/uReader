@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-18 23:56-0400\n"
+"POT-Creation-Date: 2014-03-19 09:47-0400\n"
 "PO-Revision-Date: 2014-03-18 23:50-0400\n"
 "Last-Translator: Luke <bobo1993324@gmail.com>\n"
 "Language-Team: English\n"
@@ -39,11 +39,11 @@ msgstr "返回"
 
 #: ui/TopPage.qml:9
 msgid "QmlTextReader"
-msgstr "文本阅读"
+msgstr "Qml文本阅读器"
 
 #: ui/TopPage.qml:51
 msgid "Files"
-msgstr "文件"
+msgstr "所有文件"
 
 #: components/EncodingPopover.qml:11
 msgid "UTF-8 (Universal)"

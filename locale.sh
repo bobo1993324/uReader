@@ -7,3 +7,6 @@ then
 else
 	msginit -i locale/message.pot -o locale/zh_CN.po
 fi
+
+#compile
+msgfmt locale/zh_CN.po -o locale/zh_CN/LC_MESSAGES/com.bobo-324.qmltextreader.mo

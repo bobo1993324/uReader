@@ -16,36 +16,32 @@ Page {
             id: contentColumn
             spacing: units.gu(1)
             width: parent.width
-//            ListItem.Header{
-//                text: "Recent"
-//                visible: false
-//            }
-//            Row{
-//                height: coverHeight
-//                spacing: units.gu(4)
-//                visible: false
-//                BookCover{
-//                    height: coverHeight
-//                    width: height * 2 / 3
-//                    title: "Click Me"
-//                    onClicked: {console.log("clicked")
-//                        pageStack.push(readPage)
-//                    }
-//                    onPressAndHold: {console.log("hold")}
-//                }
-
-//                BookCover{
-//                    height: coverHeight
-//                    width: height * 2 / 3
-//                    title: "hahahahahaha"
-//                }
-
-//                BookCover{
-//                    height: coverHeight
-//                    width: height * 2 / 3
-//                    title: "haha"
-//                }
-//            }
+            ListItem.Header{
+                text: "Recent"
+                visible: aDocument.contents.recent.length > 0
+            }
+            Flickable{
+                width: parent.width - units.gu(2) * 2
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: coverHeight
+                contentHeight: coverHeight
+                contentWidth: recentRow.width
+                Row{
+                    id: recentRow
+                    height: coverHeight
+                    spacing: units.gu(4)
+                    visible: aDocument.contents.recent.length > 0
+                    Repeater {
+                        model: aDocument.contents.recent
+                        BookCover{
+                            height: coverHeight
+                            width: height * 2 / 3
+                            title: modelData
+                            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
+                        }
+                    }
+                }
+            }
 
             ListItem.Header{
                 text: i18n.tr("Files")
@@ -62,12 +58,28 @@ Page {
                         title: modelData
                         completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
                         onClicked: {
+                            addToRecent(modelData);
                             readPage.fileName = modelData;
                             pageStack.push(readPage);
                         }
                     }
                 }
             }
+            Rectangle{
+                width: parent.width
+                height: 1
+                color: "transparent"
+            }
         }
+    }
+    function addToRecent(fileName) {
+        var tmp = aDocument.contents;
+        var originalIdx = tmp.recent.indexOf(fileName);
+        if (originalIdx != -1) {
+            tmp.recent.splice(originalIdx, 1);
+        }
+        tmp.recent.unshift(fileName);
+        aDocument.contents = tmp;
+        console.log(aDocument.contents.recent);
     }
 }

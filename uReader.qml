@@ -27,6 +27,12 @@ MainView {
     height: units.gu(75)
 
     property int coverHeight: units.gu(18)
+
+    Component.onCompleted: {
+        console.log("i18n" + i18n.domain + " " + i18n.language)
+        i18n.bindtextdomain(i18n.domain, "./locale")
+    }
+
     FilesModel{
         id: files
     }
@@ -45,7 +51,8 @@ MainView {
             database: aDatabase
             docId: 'uReader'
             create: true
-            defaults: { "history": {} }
+            defaults: { "history": {},
+                recent: []}
         }
     }
     PageStack{
