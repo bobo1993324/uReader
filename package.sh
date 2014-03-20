@@ -1,7 +1,9 @@
 #! /bin/bash
 mkdir package/plugins/UReader -p
-cp logo.png components ui uReader.qml manifest.json uReader.desktop img uReader.json ./package -rf
+mkdir package/locale/zh_CN/LC_MESSAGES -p
+cp logo.png components ui uReader.qml manifest.json qmlTextReader.desktop img qmlTextReader.json ./package -rf
 cp plugins/UReader/libfilesplugin.so plugins/UReader/qmldir package/plugins/UReader/
+cp locale/zh_CN/LC_MESSAGES/com.bobo-324.qmltextreader.mo package/locale/zh_CN/LC_MESSAGES/
 cd package
 click build .
 cp *.click ..
