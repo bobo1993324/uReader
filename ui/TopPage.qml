@@ -37,8 +37,10 @@ Page {
     }
 
     Flickable{
+        clip: true
         width: parent.width
         height: parent.height
+
         contentWidth: parent.width
         contentHeight: contentColumn.height
         Column {
