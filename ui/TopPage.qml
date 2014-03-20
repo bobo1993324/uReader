@@ -7,6 +7,23 @@ import "../components"
 Page {
     id: topPage
     title: i18n.tr("QmlTextReader")
+    property var filesList:[]
+    Component.onCompleted: filesList = files.files
+    Component {
+        id: bookCoverCom
+        BookCover{
+            visible: filesList.indexOf(modelData) > -1
+            height: coverHeight
+            width: height * 2 / 3
+            title: modelData
+            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
+            onClicked: {
+                addToRecent(modelData);
+                readPage.fileName = modelData;
+                pageStack.push(readPage);
+            }
+        }
+    }
 
     Flickable{
         anchors.fill: parent
@@ -17,7 +34,7 @@ Page {
             spacing: units.gu(1)
             width: parent.width
             ListItem.Header{
-                text: "Recent"
+                text: i18n.tr("Recent")
                 visible: aDocument.contents.recent.length > 0
             }
             Flickable{
@@ -33,12 +50,7 @@ Page {
                     visible: aDocument.contents.recent.length > 0
                     Repeater {
                         model: aDocument.contents.recent
-                        BookCover{
-                            height: coverHeight
-                            width: height * 2 / 3
-                            title: modelData
-                            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
-                        }
+                        delegate: bookCoverCom
                     }
                 }
             }
@@ -51,18 +63,8 @@ Page {
                 width: parent.width - units.gu(2) * 2
                 anchors.horizontalCenter: parent.horizontalCenter
                 Repeater {
-                    model: files.files
-                    BookCover{
-                        height: coverHeight
-                        width: height * 2 / 3
-                        title: modelData
-                        completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
-                        onClicked: {
-                            addToRecent(modelData);
-                            readPage.fileName = modelData;
-                            pageStack.push(readPage);
-                        }
-                    }
+                    model: filesList
+                    delegate: bookCoverCom
                 }
             }
             Rectangle{
@@ -74,11 +76,20 @@ Page {
     }
     function addToRecent(fileName) {
         var tmp = aDocument.contents;
+        if (!tmp.recent) {
+            tmp.recent = [fileName];
+            return;
+        }
         var originalIdx = tmp.recent.indexOf(fileName);
         if (originalIdx != -1) {
             tmp.recent.splice(originalIdx, 1);
         }
         tmp.recent.unshift(fileName);
+        //limit the length of recent to 8
+        while (tmp.recent.length > 8) {
+            tmp.recent.splice(-1, 1)
+        }
+
         aDocument.contents = tmp;
         console.log(aDocument.contents.recent);
     }

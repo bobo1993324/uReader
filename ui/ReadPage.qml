@@ -112,8 +112,8 @@ Page{
         text: "Page 0"
         font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         readOnly: true
-        width: parent.width - mARGIN * 2
-        x: currentPageListIdx == 0 ? mARGIN : (currentPageListIdx == 1 ? -parent.width : parent.width)
+        width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
+        x: currentPageListIdx == 0 ? (parent.width - width) / 2  : (currentPageListIdx == 1 ? -parent.width : parent.width)
 
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
@@ -139,8 +139,8 @@ Page{
         font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         text: "Page 1 (Swipe to turn)"
         readOnly: true
-        width: parent.width - mARGIN * 2
-        x: currentPageListIdx == 1 ? mARGIN : (currentPageListIdx == 2 ? -parent.width : parent.width)
+        width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
+        x: currentPageListIdx == 1 ? (parent.width - width) / 2 : (currentPageListIdx == 2 ? -parent.width : parent.width)
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
 
@@ -155,8 +155,8 @@ Page{
         text: "Page 2"
         font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
         readOnly: true
-        width: parent.width - mARGIN * 2
-        x: currentPageListIdx == 2 ? mARGIN : (currentPageListIdx == 0 ? -parent.width : parent.width)
+        width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
+        x: currentPageListIdx == 2 ? (parent.width - width) / 2 : (currentPageListIdx == 0 ? -parent.width : parent.width)
         height: parent.height - progressBar.height - mARGIN * 2
         y: mARGIN
 
