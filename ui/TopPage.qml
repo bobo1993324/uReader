@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1  as ListItem
+import Ubuntu.Components.Popups 0.1
 
 import "../components"
 
@@ -8,7 +9,17 @@ Page {
     id: topPage
     title: i18n.tr("QmlTextReader")
     property var filesList:[]
-    Component.onCompleted: filesList = files.files
+    Component.onCompleted: {
+        filesList = files.files
+        if (filesList.length == 0) {
+            PopupUtils.open(afd)
+        }
+    }
+
+    AddFileDialogue {
+        id: afd
+    }
+
     Component {
         id: bookCoverCom
         BookCover{
@@ -92,5 +103,14 @@ Page {
 
         aDocument.contents = tmp;
         console.log(aDocument.contents.recent);
+    }
+    tools: ToolbarItems{
+        ToolbarButton{
+            action: Action{
+                text: i18n.tr("Help")
+                iconSource: "../img/help.svg"
+                onTriggered: pageStack.push(helpPage);
+            }
+        }
     }
 }

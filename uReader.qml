@@ -67,4 +67,8 @@ MainView {
         id: readPage
         visible: false
     }
+    HelpPage {
+        id: helpPage
+        visible: false
+    }
 }
