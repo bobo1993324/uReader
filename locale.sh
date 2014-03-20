@@ -10,4 +10,4 @@ fi
 
 #compile
 mkdir -p locale/zh_CN/LC_MESSAGES/
-msgfmt locale/zh_CN.po -o locale/zh_CN/LC_MESSAGES/com.bobo-324.qmltextreader.mo
+msgfmt locale/zh_CN.po -o locale/zh_CN/LC_MESSAGES/com.ubuntu.developer.bobo1993324.qmltextreader.mo

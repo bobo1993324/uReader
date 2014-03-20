@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-20 10:19-0400\n"
+"POT-Creation-Date: 2014-03-20 18:51-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,8 +23,8 @@ msgid ""
 "Welcome to QmlTextReader.\n"
 "This is a reader for txt file, for novel reading.\n"
 "\n"
-"To add a file, put it under path '~/.local/share/com.bobo-324.qmltextreader/"
-"Documents'. \n"
+"To add a file, put it under path '~/.local/share/com.ubuntu.developer."
+"bobo1993324.qmltextreader/Documents'. \n"
 "To turn page in the reading mode, either click on the right or left, or "
 "swipe right or left.\n"
 "\n"
@@ -56,22 +56,22 @@ msgstr ""
 msgid "QmlTextReader"
 msgstr ""
 
-#: ui/TopPage.qml:48
+#: ui/TopPage.qml:51
 msgid "Recent"
 msgstr ""
 
-#: ui/TopPage.qml:70
+#: ui/TopPage.qml:74
 msgid "Files"
 msgstr ""
 
-#: ui/TopPage.qml:110
+#: ui/TopPage.qml:114
 msgid "Help"
 msgstr ""
 
 #: components/AddFileDialogue.qml:8
 msgid ""
-"No files found. Copy txt files to '~/.local/share/com.bobo-324.qmltextreader/"
-"Documents' and restart the application."
+"No files found. Copy txt files to '~/.local/share/com.ubuntu.developer."
+"bobo1993324.qmltextreader/Documents' and restart the application."
 msgstr ""
 
 #: components/EncodingPopover.qml:11

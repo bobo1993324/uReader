@@ -3,7 +3,7 @@
 QStringList FilesModel::files(){
     //    QFontDatabase qfdb;
 //    qDebug() << "FilesModel::files()";
-    QDir qdir(QDir::homePath() + "/.local/share/com.bobo-324.qmltextreader/Documents");
+    QDir qdir(QDir::homePath() + "/.local/share/com.ubuntu.developer.bobo1993324.qmltextreader/Documents");
     if (!qdir.exists()) {
         qdir.mkpath(qdir.absolutePath());
         return QStringList();
@@ -24,7 +24,7 @@ QStringList FilesModel::files(){
 }
 
 QString FilesModel::readFile(QString fileName, QString encoding){
-    QFile f(QDir::homePath() + "/.local/share/com.bobo-324.qmltextreader/Documents/" + fileName);
+    QFile f(QDir::homePath() + "/.local/share/com.ubuntu.developer.bobo1993324.qmltextreader/Documents/" + fileName);
     qDebug() << "read " << fileName << " " << f.exists();
     f.open(QFile::ReadOnly);
     QTextStream in(&f);
