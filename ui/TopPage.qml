@@ -37,7 +37,8 @@ Page {
     }
 
     Flickable{
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
         contentWidth: parent.width
         contentHeight: contentColumn.height
         Column {
