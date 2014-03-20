@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=qmlTextReader
+Exec=qmlscene ./uReader.qml -I ./plugins
+Icon=./logo.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true

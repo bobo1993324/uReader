@@ -2,7 +2,7 @@
 
 QStringList FilesModel::files(){
     //    QFontDatabase qfdb;
-    qDebug() << "FilesModel::files()";
+//    qDebug() << "FilesModel::files()";
     QDir qdir(QDir::homePath() + "/.local/share/com.bobo-324.qmltextreader/Documents");
     if (!qdir.exists()) {
         qdir.mkpath(qdir.absolutePath());
