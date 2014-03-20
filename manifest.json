@@ -1,5 +1,5 @@
 {
-    "architecture": "armf",
+    "architecture": "armhf",
     "description": "A reader for book reading.",
     "framework": "ubuntu-sdk-13.10",
     "hooks": {
