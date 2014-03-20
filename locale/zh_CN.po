@@ -66,7 +66,7 @@ msgstr "Qml文本阅读器"
 
 #: ui/TopPage.qml:48
 msgid "Recent"
-msgstr ""
+msgstr "最近"
 
 #: ui/TopPage.qml:70
 msgid "Files"
