@@ -51,6 +51,7 @@ Page {
             Flickable{
                 width: parent.width - units.gu(2) * 2
                 anchors.horizontalCenter: parent.horizontalCenter
+                visible: aDocument.contents.recent.length > 0
                 height: coverHeight
                 contentHeight: coverHeight
                 contentWidth: recentRow.width
