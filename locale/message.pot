@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 09:47-0400\n"
+"POT-Creation-Date: 2014-03-20 09:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,21 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ui/HelpPage.qml:8
+msgid ""
+"\n"
+"Welcome to QmlTextReader.\n"
+"This is a reader for txt file, for novel reading.\n"
+"\n"
+"To add a file, put it under path '~/.local/share/com.bobo-324.qmltextreader/"
+"Documents'. \n"
+"To turn page in the reading mode, either click on the right or left, or "
+"swipe right or left.\n"
+"\n"
+"Any feature request or bug report is appreciated. If do, mail to "
+"bobo1993324@gmail.com."
+msgstr ""
 
 #: ui/ReadPage.qml:343
 msgid "Font +"
@@ -37,12 +52,26 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ui/TopPage.qml:9
+#: ui/TopPage.qml:10
 msgid "QmlTextReader"
 msgstr ""
 
-#: ui/TopPage.qml:51
+#: ui/TopPage.qml:48
+msgid "Recent"
+msgstr ""
+
+#: ui/TopPage.qml:70
 msgid "Files"
+msgstr ""
+
+#: ui/TopPage.qml:110
+msgid "Help"
+msgstr ""
+
+#: components/AddFileDialogue.qml:8
+msgid ""
+"No files found. Copy txt files to '~/.local/share/com.bobo-324.qmltextreader/"
+"Documents' and restart the application."
 msgstr ""
 
 #: components/EncodingPopover.qml:11
