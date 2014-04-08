@@ -1,15 +1,15 @@
 {
-    "architecture": "armhf",
-    "description": "A reader for book reading.",
-    "framework": "ubuntu-sdk-13.10",
+    "name": "com.ubuntu.developer.username.ureader",
+    "description": "description of uReader",
+    "framework": "ubuntu-sdk-14.04-qml-dev1",
+    "architecture": "all",
+    "title": "uReader",
     "hooks": {
-        "qmlTextReader": {
-            "apparmor": "qmlTextReader.json",
-            "desktop": "qmlTextReader.desktop"
+        "uReader": {
+            "apparmor": "uReader.json",
+            "desktop": "uReader.desktop"
         }
     },
-    "maintainer": "Boren Zhang <bobo1993324@gmail.com>",
-    "name": "com.ubuntu.developer.bobo1993324.qmltextreader",
-    "title": "QmlTextReader",
-    "version": "0.1.1"
+    "version": "0.1",
+    "maintainer": ""
 }

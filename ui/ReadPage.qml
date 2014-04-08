@@ -8,7 +8,9 @@ Page{
     property var pageList : [page0, page1, page2]
     property var fileName
     property var indexList
-    property int currentPageListIdx
+    property var currentScreen : page1
+    property var prevScreen : page0
+    property var nextScreen : page2
     property int currentIndexListIdx
     property string content;
     property string translatedContent; //original content with endline added
@@ -54,7 +56,7 @@ Page{
         //count space to see if need to warp
         var spaceCount = 0;
         for (var i = 0; i < 1000; i++) {
-//            console.log(content[i])
+            //            console.log(content[i])
             if (content[i] === ' ' ) {
                 spaceCount ++;
             }
@@ -94,7 +96,11 @@ Page{
         }
         //load current page
 
-        pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
+        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+
+        resetScreenPosition();
         isReady = true;
     }
 
@@ -104,70 +110,71 @@ Page{
             newContents.history[fileName].fontSize = fontSize;
             aDocument.contents = newContents
         }
-//        console.log(JSON.stringify(aDocument.contents))
+        //        console.log(JSON.stringify(aDocument.contents))
     }
 
-    TextEdit{
-        id: page0
-        text: "Page 0"
-        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
-        readOnly: true
+    Flickable {
+        id: textEditsItem
         width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
-        x: currentPageListIdx == 0 ? (parent.width - width) / 2  : (currentPageListIdx == 1 ? -parent.width : parent.width)
-
-        height: parent.height - progressBar.height - mARGIN * 2
-        y: mARGIN
-
-        wrapMode: Text.NoWrap
-        Behavior on x{
+        anchors {
+            top: parent.top
+            bottom: progressBar.top
+            margins: units.gu(3)
+        }
+        contentHeight: height
+        contentWidth: width
+        x: (parent.width - width) / 2
+        clip: true
+        Behavior on contentX {
             UbuntuNumberAnimation{}
         }
 
-        font.pointSize: fontSize
+        TextEdit{
+            id: page0
+            text: "Page 0"
+            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
+            readOnly: true
+            width : parent.width
+            height: parent.height
 
-    }
-//    Rectangle{
-//        width: parent.width - mARGIN * 2
-//        height: parent.height - progressBar.height - mARGIN * 2
-//        x: mARGIN
-//        y: mARGIN
-//        z: -10
-//    }
+            wrapMode: Text.NoWrap
+            Behavior on x{
+                UbuntuNumberAnimation{}
+            }
 
-    TextEdit{
-        id: page1
-        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
-        text: "Page 1 (Swipe to turn)"
-        readOnly: true
-        width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
-        x: currentPageListIdx == 1 ? (parent.width - width) / 2 : (currentPageListIdx == 2 ? -parent.width : parent.width)
-        height: parent.height - progressBar.height - mARGIN * 2
-        y: mARGIN
-
-        wrapMode: Text.NoWrap
-        Behavior on x{
-            UbuntuNumberAnimation{}
-        }
-        font.pointSize: fontSize
-    }
-    TextEdit{
-        id: page2
-        text: "Page 2"
-        font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
-        readOnly: true
-        width: (parent.width - mARGIN * 2) > units.gu(75) ? units.gu(75) : parent.width - mARGIN * 2
-        x: currentPageListIdx == 2 ? (parent.width - width) / 2 : (currentPageListIdx == 0 ? -parent.width : parent.width)
-        height: parent.height - progressBar.height - mARGIN * 2
-        y: mARGIN
-
-        wrapMode: Text.NoWrap
-        Behavior on x{
-            UbuntuNumberAnimation{}
+            font.pointSize: fontSize
         }
 
-        font.pointSize: fontSize
-    }
+        TextEdit{
+            id: page1
+            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
+            text: "Page 1 (Swipe to turn)"
+            readOnly: true
+            width : parent.width
+            height: parent.height
+            wrapMode: Text.NoWrap
+            Behavior on x{
+                UbuntuNumberAnimation{}
+            }
+            font.pointSize: fontSize
+        }
+        TextEdit{
+            id: page2
+            text: "Page 2"
+            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
+            readOnly: true
 
+            width : parent.width
+            height: parent.height
+
+            wrapMode: Text.NoWrap
+            Behavior on x{
+                UbuntuNumberAnimation{}
+            }
+
+            font.pointSize: fontSize
+        }
+    }
     Column{
 
         id: progressBar
@@ -241,37 +248,80 @@ Page{
         }
     }
 
-    MyGestureArea{
-        id: myGestureArea
+    MouseArea {
+        anchors.fill: parent
+        anchors.bottomMargin: parent.height - progressSliderRect.y
         enabled: isReady
-        width: parent.width
-        height: progressSliderRect.y
-        onSwipeRight: prevPage()
-        onSwipeLeft: nextPage()
-        onRealClicked: {
-            if (mouse.x < width * 0.3) {
-                console.log("clicked left")
-                prevPage();
-            } else if (mouse.x > width * 0.7) {
-                console.log("clicked right")
-                nextPage();
-            } else if (!readPage.toolbar.animating){
-                readPage.toolbar.open();
+        property int startPosition
+        property bool startDrag
+
+        onPressed: {
+            startPosition = mouse.x;
+            startDrag = false
+        }
+        onMouseXChanged: {
+            if (!startDrag && Math.abs(startPosition - mouse.x) > units.gu(1)) {
+                prevScreen.visible = true;
+                nextScreen.visible = true;
+                startDrag = true;
+                canceled()
+            } else if (startDrag){
+                textEditsItem.contentX = startPosition - mouse.x;
             }
         }
+        onReleased: {
+            console.log("onReleased")
+            if (startDrag) {
+                console.log("startDrag" + currentScreen.x)
+                if (textEditsItem.contentX > currentScreen.width / 4) {
+                    nextPage();
+                } else if (textEditsItem.contentX < - currentScreen.width / 4) {
+                    prevPage();
+                } else {
+                    console.log("reset")
+                    resetScreenPosition();
+                }
+            }
+        }
+
+        onClicked: {
+            if(!startDrag) {
+                if (mouse.x < width * 0.3) {
+                    console.log("clicked left")
+                    prevPage();
+                } else if (mouse.x > width * 0.7) {
+                    console.log("clicked right")
+                    nextPage();
+                } else if (!readPage.toolbar.animating){
+                    readPage.toolbar.open();
+                }
+            }
+        }
+
     }
+
+    //    MyGestureArea{
+    //        id: myGestureArea
+    //        enabled: isReady
+    //        width: parent.width
+    //        height: progressSliderRect.y
+    //        onSwipeRight: prevPage()
+    //        onSwipeLeft: nextPage()
+    //    }
 
     function nextPage(){
         if(currentIndexListIdx < indexList.length -2){
-            //load next page
-            pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
+            var tmp = currentScreen
+            currentScreen = nextScreen
+            nextScreen = prevScreen
+            prevScreen = tmp
 
-            pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].visible = false
-            pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].visible = true
+            prevScreen.visible = true
+            currentScreen.visible = true
+            nextScreen.visible = false;
+            resetScreenPosition();
 
-            currentPageListIdx ++;
-            if(currentPageListIdx > 2)
-                currentPageListIdx = 0
+            nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 2], indexList[currentIndexListIdx + 3]);
             currentIndexListIdx ++;
             saveAll();
         }
@@ -279,15 +329,17 @@ Page{
     function prevPage(){
         if(currentIndexListIdx != 0){
             //load prev page
+            var tmp = currentScreen
+            currentScreen = prevScreen
+            prevScreen = nextScreen
+            nextScreen = tmp
 
-            pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+            prevScreen.visible = false;
+            currentScreen.visible = true
+            nextScreen.visible = true;
+            resetScreenPosition();
 
-            pageList[currentPageListIdx == 0 ? 2 : currentPageListIdx - 1].visible = true
-            pageList[currentPageListIdx == 2 ? 0 : currentPageListIdx + 1].visible = false
-
-            currentPageListIdx --;
-            if(currentPageListIdx < 0)
-                currentPageListIdx = 2;
+            prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 2], indexList[currentIndexListIdx - 1]);
             currentIndexListIdx --;
             saveAll();
         }
@@ -296,7 +348,7 @@ Page{
         //TODO binary search
         for (var i = 1; i < indexList.length; i++) {
             if (idx < indexList[i]) {
-//                console.log(indexList[i] + " " + (i-1))
+                //                console.log(indexList[i] + " " + (i-1))
                 return i - 1;
             }
         }
@@ -410,5 +462,11 @@ Page{
             running: !isReady;
             anchors.centerIn: parent
         }
+    }
+    function resetScreenPosition() {
+        textEditsItem.contentX = 0
+        currentScreen.x = 0
+        nextScreen.x = nextScreen.width + units.gu(2);
+        prevScreen.x = - prevScreen.width - units.gu(2);
     }
 }

@@ -29,7 +29,7 @@ Page {
             title: modelData.substring(0, modelData.length-4) //remove .txt extension
             completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
             onClicked: {
-                addToRecent(modelData);
+//                addToRecent(modelData);
                 readPage.fileName = modelData;
                 pageStack.push(readPage);
             }
@@ -47,32 +47,35 @@ Page {
             id: contentColumn
             spacing: units.gu(1)
             width: parent.width
-            ListItem.Header{
-                text: i18n.tr("Recent")
-                visible: aDocument.contents.recent.length > 0
-            }
-            Flickable{
-                width: parent.width - units.gu(2) * 2
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: aDocument.contents.recent.length > 0
-                height: coverHeight
-                contentHeight: coverHeight
-                contentWidth: recentRow.width
-                Row{
-                    id: recentRow
-                    height: coverHeight
-                    spacing: units.gu(4)
-                    visible: aDocument.contents.recent.length > 0
-                    Repeater {
-                        model: aDocument.contents.recent
-                        delegate: bookCoverCom
-                    }
-                }
-            }
+            anchors.fill: parent
+            anchors.topMargin: units.gu(1)
+//            ListItem.Header{
+//                text: i18n.tr("Recent")
+//                visible: aDocument.contents.recent.length > 0
+//            }
+//            Flickable{
+//                width: parent.width - units.gu(2) * 2
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                visible: aDocument.contents.recent.length > 0
+//                height: coverHeight
+//                contentHeight: coverHeight
+//                contentWidth: recentRow.width
+//                Row{
+//                    id: recentRow
+//                    height: coverHeight
+//                    spacing: units.gu(4)
+//                    visible: aDocument.contents.recent.length > 0
+//                    Repeater {
+//                        model: aDocument.contents.recent
+//                        delegate: bookCoverCom
+//                    }
+//                }
+//            }
 
-            ListItem.Header{
-                text: i18n.tr("Files")
-            }
+//            ListItem.Header{
+//                text: i18n.tr("Files")
+//            }
+
             Flow{
                 spacing: units.gu(4)
                 width: parent.width - units.gu(2) * 2
