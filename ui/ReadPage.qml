@@ -125,9 +125,6 @@ Page{
         contentWidth: width
         x: (parent.width - width) / 2
         clip: true
-        Behavior on contentX {
-            UbuntuNumberAnimation{}
-        }
 
         TextEdit{
             id: page0
@@ -139,7 +136,7 @@ Page{
 
             wrapMode: Text.NoWrap
             Behavior on x{
-                UbuntuNumberAnimation{}
+                UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
 
             font.pointSize: fontSize
@@ -154,7 +151,7 @@ Page{
             height: parent.height
             wrapMode: Text.NoWrap
             Behavior on x{
-                UbuntuNumberAnimation{}
+                UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
             font.pointSize: fontSize
         }
@@ -169,7 +166,7 @@ Page{
 
             wrapMode: Text.NoWrap
             Behavior on x{
-                UbuntuNumberAnimation{}
+                UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
 
             font.pointSize: fontSize
@@ -216,7 +213,7 @@ Page{
             anchors.horizontalCenter: parent.horizontalCenter
             onValueChanged: {
                 currentIndexListIdx = Math.floor(value);
-                saveAll();
+                saveTimer.start()
                 pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
             }
 
@@ -244,7 +241,7 @@ Page{
             }
         }
         Behavior on y {
-            UbuntuNumberAnimation{}
+            UbuntuNumberAnimation { duration:  UbuntuNumberAnimation.slowDuration}
         }
     }
 
@@ -253,10 +250,15 @@ Page{
         anchors.bottomMargin: parent.height - progressSliderRect.y
         enabled: isReady
         property int startPosition
+        property int prevPosistion
         property bool startDrag
 
+        property var pagePositions: [0, 0, 0]
         onPressed: {
             startPosition = mouse.x;
+            pagePositions[0] = page0.x;
+            pagePositions[1] = page1.x;
+            pagePositions[2] = page2.x;
             startDrag = false
         }
         onMouseXChanged: {
@@ -266,19 +268,22 @@ Page{
                 startDrag = true;
                 canceled()
             } else if (startDrag){
-                textEditsItem.contentX = startPosition - mouse.x;
+//                textEditsItem.contentX = startPosition - mouse.x;
+                page0.x = pagePositions[0] - startPosition + mouse.x;
+                page1.x = pagePositions[1] - startPosition + mouse.x;
+                page2.x = pagePositions[2] - startPosition + mouse.x;
             }
         }
         onReleased: {
-            console.log("onReleased")
+//            console.log("onReleased")
             if (startDrag) {
-                console.log("startDrag" + currentScreen.x)
-                if (textEditsItem.contentX > currentScreen.width / 4) {
+//                console.log("startDrag" + currentScreen.x)
+                if (startPosition - mouse.x > currentScreen.width / 4) {
                     nextPage();
-                } else if (textEditsItem.contentX < - currentScreen.width / 4) {
+                } else if (startPosition - mouse.x < - currentScreen.width / 4) {
                     prevPage();
                 } else {
-                    console.log("reset")
+//                    console.log("reset")
                     resetScreenPosition();
                 }
             }
@@ -287,10 +292,10 @@ Page{
         onClicked: {
             if(!startDrag) {
                 if (mouse.x < width * 0.3) {
-                    console.log("clicked left")
+//                    console.log("clicked left")
                     prevPage();
                 } else if (mouse.x > width * 0.7) {
-                    console.log("clicked right")
+//                    console.log("clicked right")
                     nextPage();
                 } else if (!readPage.toolbar.animating){
                     readPage.toolbar.open();
@@ -323,7 +328,7 @@ Page{
 
             nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 2], indexList[currentIndexListIdx + 3]);
             currentIndexListIdx ++;
-            saveAll();
+            saveTimer.start();
         }
     }
     function prevPage(){
@@ -341,7 +346,7 @@ Page{
 
             prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 2], indexList[currentIndexListIdx - 1]);
             currentIndexListIdx --;
-            saveAll();
+            saveTimer.start()
         }
     }
     function getPageIdx(idx){
@@ -359,7 +364,7 @@ Page{
         encoding = newEncoding;
         readContent();
         timer1.start();
-        saveAll();
+        saveTimer.start();
     }
 
     function saveAll(){
@@ -370,7 +375,7 @@ Page{
             newContents.history[fileName].totalCount = content.length;
             aDocument.contents = newContents
         }
-        console.log(JSON.stringify(aDocument.contents))
+//        console.log(JSON.stringify(aDocument.contents))
     }
 
     tools:ToolbarItems{
@@ -464,9 +469,14 @@ Page{
         }
     }
     function resetScreenPosition() {
-        textEditsItem.contentX = 0
         currentScreen.x = 0
         nextScreen.x = nextScreen.width + units.gu(2);
         prevScreen.x = - prevScreen.width - units.gu(2);
+    }
+    Timer {
+        id: saveTimer
+        interval: 500
+        repeat: false
+        onTriggered: saveAll()
     }
 }
