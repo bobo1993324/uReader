@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-20 18:51-0400\n"
+"POT-Creation-Date: 2014-04-09 01:15-0400\n"
 "PO-Revision-Date: 2014-03-18 23:50-0400\n"
 "Last-Translator: Luke <bobo1993324@gmail.com>\n"
 "Language-Team: English\n"
@@ -23,7 +23,8 @@ msgid ""
 "Welcome to QmlTextReader.\n"
 "This is a reader for txt file, for novel reading.\n"
 "\n"
-"To add a file, put it under path '~/.local/share/com.ubuntu.developer."
+"To add a file, put it under path '~/.local/share/\n"
+"com.ubuntu.developer.\n"
 "bobo1993324.qmltextreader/Documents'. \n"
 "To turn page in the reading mode, either click on the right or left, or "
 "swipe right or left.\n"
@@ -41,23 +42,23 @@ msgstr ""
 "\n"
 "任何问题，邮bobo1993324@gmail.com"
 
-#: ui/ReadPage.qml:343
+#: ui/ReadPage.qml:400
 msgid "Font +"
 msgstr "放大"
 
-#: ui/ReadPage.qml:355
+#: ui/ReadPage.qml:412
 msgid "Font -"
 msgstr "缩小"
 
-#: ui/ReadPage.qml:367
+#: ui/ReadPage.qml:424
 msgid "Jump to"
 msgstr "跳转"
 
-#: ui/ReadPage.qml:383
+#: ui/ReadPage.qml:440
 msgid "Encoding"
 msgstr "编码"
 
-#: ui/ReadPage.qml:392
+#: ui/ReadPage.qml:449
 msgid "Back"
 msgstr "返回"
 
@@ -65,15 +66,7 @@ msgstr "返回"
 msgid "QmlTextReader"
 msgstr "Qml文本阅读器"
 
-#: ui/TopPage.qml:51
-msgid "Recent"
-msgstr "最近"
-
-#: ui/TopPage.qml:74
-msgid "Files"
-msgstr "所有文件"
-
-#: ui/TopPage.qml:114
+#: ui/TopPage.qml:117
 msgid "Help"
 msgstr "帮助"
 
@@ -92,6 +85,35 @@ msgstr "UTF-8 (通用)"
 #: components/EncodingPopover.qml:19
 msgid "GB2312 (Chinese)"
 msgstr "GB2312 (中文)"
+
+#~ msgid ""
+#~ "\n"
+#~ "Welcome to QmlTextReader.\n"
+#~ "This is a reader for txt file, for novel reading.\n"
+#~ "\n"
+#~ "To add a file, put it under path '~/.local/share/com.ubuntu.developer."
+#~ "bobo1993324.qmltextreader/Documents'. \n"
+#~ "To turn page in the reading mode, either click on the right or left, or "
+#~ "swipe right or left.\n"
+#~ "\n"
+#~ "Any feature request or bug report is appreciated. If do, mail to "
+#~ "bobo1993324@gmail.com."
+#~ msgstr ""
+#~ "\n"
+#~ "Qml文本阅读\n"
+#~ "这是一个txt小说阅读器\n"
+#~ "\n"
+#~ "把txt文件放到~/.local/share/com.ubuntu.developer.bobo1993324."
+#~ "qmltextreader/Documents目录下\n"
+#~ "翻页要么点左边，要么点右边，要么左右滑\n"
+#~ "\n"
+#~ "任何问题，邮bobo1993324@gmail.com"
+
+#~ msgid "Recent"
+#~ msgstr "最近"
+
+#~ msgid "Files"
+#~ msgstr "所有文件"
 
 #~ msgid ""
 #~ "\n"
