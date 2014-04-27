@@ -12,6 +12,7 @@ class FilesModel : public QObject{
 public:
     QStringList files();
     Q_INVOKABLE QString readFile(QString fileName, QString encoding);
-    Q_INVOKABLE QVariantList indexTxt(QFont font, int height, int width, QString text);
-    Q_INVOKABLE QVariantList indexTxtWrapped(QFont font, int height, int width, QString text);
+    Q_INVOKABLE QVariantList indexTxt(QFont font, int height, int width, QString text, double lineSpace);
+    Q_INVOKABLE QVariantList indexTxtWrapped(QFont font, int height, int width, QString text, double lineSpace);
+    Q_INVOKABLE int getLineHeight(QFont font);
 };

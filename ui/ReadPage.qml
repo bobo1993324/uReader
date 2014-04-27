@@ -15,7 +15,9 @@ Page{
     property string content;
     property string translatedContent; //original content with endline added
     property int mARGIN : units.gu(4)
-    property int fontSize: units.gu(1.5)
+    property int fontSize: FontUtils.sizeToPixels("medium")
+    property int textLineHeight: files.getLineHeight(page0.font) * textLineSpace
+    property real textLineSpace: 1.2
     property string encoding
     property bool wordWrap
     property bool isReady
@@ -84,9 +86,9 @@ Page{
             fontSize = units.gu(1.5)
         var tmp;
         if (!wordWrap)
-            tmp = files.indexTxt(page1.font, page1.height, page1.width, content);
+            tmp = files.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
         else
-            tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content);
+            tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
         indexList = tmp[0];
         translatedContent = tmp[1];
         if (aDocument.contents.history[fileName].totalCount != content.length) {
@@ -126,11 +128,10 @@ Page{
         x: (parent.width - width) / 2
         clip: true
 
-        TextEdit{
+        Text{
             id: page0
             text: "Page 0"
-            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
-            readOnly: true
+            font.family: "Ubuntu"
             width : parent.width
             height: parent.height
 
@@ -139,27 +140,29 @@ Page{
                 UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
 
-            font.pointSize: fontSize
+            font.pixelSize: fontSize
+            lineHeight: textLineHeight
+            lineHeightMode: Text.FixedHeight
         }
 
-        TextEdit{
+        Text{
             id: page1
-            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
+            font.family: "Ubuntu"
             text: "Page 1 (Swipe to turn)"
-            readOnly: true
             width : parent.width
             height: parent.height
             wrapMode: Text.NoWrap
             Behavior on x{
                 UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
-            font.pointSize: fontSize
+            font.pixelSize: fontSize
+            lineHeight: textLineHeight
+            lineHeightMode: Text.FixedHeight
         }
-        TextEdit{
+        Text{
             id: page2
             text: "Page 2"
-            font.family: wordWrap ? "Ubuntu" : "WenQuanYi Micro Hei"
-            readOnly: true
+            font.family: "Ubuntu"
 
             width : parent.width
             height: parent.height
@@ -169,7 +172,9 @@ Page{
                 UbuntuNumberAnimation { duration:  UbuntuAnimation.SlowDuration}
             }
 
-            font.pointSize: fontSize
+            font.pixelSize: fontSize
+            lineHeight: textLineHeight
+            lineHeightMode: Text.FixedHeight
         }
     }
     Column{
@@ -212,9 +217,9 @@ Page{
             width: parent.width - mARGIN * 2
             anchors.horizontalCenter: parent.horizontalCenter
             onValueChanged: {
-                currentIndexListIdx = Math.floor(value);
+                readPage.currentIndexListIdx = Math.floor(value);
                 saveTimer.start()
-                pageList[currentPageListIdx].text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+                currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
             }
 
             onPressedChanged: {

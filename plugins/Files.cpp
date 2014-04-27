@@ -34,14 +34,14 @@ QString FilesModel::readFile(QString fileName, QString encoding){
     return s;
 }
 
-QVariantList FilesModel::indexTxtWrapped(QFont font, int height, int width, QString text){
+QVariantList FilesModel::indexTxtWrapped(QFont font, int height, int width, QString text, double lineSpace){
     //TODO it doesn't work perfectly. add breakline manually
     qDebug() << font << " " << height << " " << width << " " << text.length();
     QString qsb;
 
     QVariantList list;
     QFontMetrics fm=QFontMetrics(font);
-    int PageLineNum = height / qMax(fm.height(), fm.lineSpacing());
+    int PageLineNum = height / (qMax(fm.height(), fm.lineSpacing()) * lineSpace);
     qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
     int PageLineNow = 0;
     int LineWidthNow = 0;
@@ -107,14 +107,14 @@ QVariantList FilesModel::indexTxtWrapped(QFont font, int height, int width, QStr
 
 }
 
-QVariantList FilesModel::indexTxt(QFont font, int height, int width, QString text){
+QVariantList FilesModel::indexTxt(QFont font, int height, int width, QString text, double lineSpace){
     qDebug() << font << " " << height << " " << width << " " << text.length();
 
     QString qsb;
 
     QVariantList list;
     QFontMetrics fm=QFontMetrics(font);
-    int PageLineNum = height / qMax(fm.height(), fm.lineSpacing());
+    int PageLineNum = height / (qMax(fm.height(), fm.lineSpacing()) * lineSpace);
     qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
     int PageLineNow = 0;
     int LineWidthNow = 0;
@@ -156,4 +156,10 @@ QVariantList FilesModel::indexTxt(QFont font, int height, int width, QString tex
     QVariantList returnVal;
     returnVal << QVariant(list) << QVariant(qsb);
     return returnVal;
+}
+
+
+int FilesModel::getLineHeight(QFont font) {
+    QFontMetrics fm=QFontMetrics(font);
+    return qMax(fm.height(), fm.lineSpacing());
 }
