@@ -1,7 +1,7 @@
 {
     "architecture": "armhf",
     "description": "A reader for book reading.",
-    "framework": "ubuntu-sdk-13.10",
+    "framework": "ubuntu-sdk-14.04-qml-dev1",
     "hooks": {
         "qmlTextReader": {
             "apparmor": "qmlTextReader.json",
