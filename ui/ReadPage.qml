@@ -77,20 +77,30 @@ Page{
         interval: 1000
         onTriggered: indexAndSet()
     }
-
+    property var indexCache: ({});
     function indexAndSet(){
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
         else
             fontSize = units.gu(1.5)
-        var tmp;
-        if (!wordWrap)
-            tmp = files.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
-        else
-            tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
-        indexList = tmp[0];
-        translatedContent = tmp[1];
+
+        if (indexCache[page1.height + "-" + page1.width] !== undefined) {
+            indexList = indexCache[page1.height + "-" + page1.width].indexList;
+            translatedContent = indexCache[page1.height + "-" + page1.width].translatedContent
+        } else {
+            var tmp;
+            if (!wordWrap)
+                tmp = files.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
+            else
+                tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
+            indexList = tmp[0];
+            translatedContent = tmp[1];
+            indexCache[page1.height + "-" + page1.width] = {
+                indexList: indexList,
+                translatedContent: translatedContent
+            }
+        }
         if (aDocument.contents.history[fileName].totalCount != content.length) {
             currentIndexListIdx = 0;
         } else {
@@ -98,9 +108,9 @@ Page{
         }
         //load current page
 
-        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
-        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
-        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+//        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+//        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
+//        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
 
         resetScreenPosition();
         isReady = true;
