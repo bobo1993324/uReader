@@ -3,6 +3,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Content 0.1
 
 Item {
+    id: root
     property list<ContentItem> importItems
     property var activeTransfer
     signal requestCompleted();

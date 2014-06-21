@@ -123,12 +123,15 @@ Page {
             action: Action {
                 text: i18n.tr("Import")
                 iconSource: "image://theme/add"
-                onTriggered: contentImport.request()
+                onTriggered: PopupUtils.open(cpd)
             }
         }
     }
-    ContentImport {
-        id: contentImport
-        onRequestCompleted: console.log(contentImport.importItems[0].url)
+//    ContentImport {
+//        id: contentImport
+//        onRequestCompleted: console.log(contentImport.importItems[0].url)
+//    }
+    ContentPickerDialog {
+        id: cpd
     }
 }
