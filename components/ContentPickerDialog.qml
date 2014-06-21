@@ -63,7 +63,7 @@ Component {
                         selectedItems.push(String(picker.activeTransfer.items[i].url).replace("file://", ""))
                     }
                     console.log(selectedItems)
-                    PopupUtils.clos(picker)
+                    PopupUtils.close(picker)
                 }
             }
         }
