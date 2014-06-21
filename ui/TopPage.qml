@@ -8,9 +8,8 @@ import "../components"
 Page {
     id: topPage
     title: i18n.tr("QmlTextReader")
-    property var filesList:[]
+    property var filesList: files.files
     Component.onCompleted: {
-        filesList = files.files
         if (filesList.length == 0) {
             PopupUtils.open(afd)
         }

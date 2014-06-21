@@ -43,6 +43,7 @@ Component {
                 contentType: ContentType.All
                 handler: ContentHandler.Source
                 onPeerSelected: {
+                    //TODO import multiple files
                     peer.selectionType = ContentTransfer.Single
                     picker.activeTransfer = peer.request()
                     stateChangeConnection.target = picker.activeTransfer
@@ -58,11 +59,7 @@ Component {
             id: stateChangeConnection
             onStateChanged: {
                 if (picker.activeTransfer.state === ContentTransfer.Charged) {
-                    selectedItems = []
-                    for(var i in picker.activeTransfer.items) {
-                        selectedItems.push(String(picker.activeTransfer.items[i].url).replace("file://", ""))
-                    }
-                    console.log(selectedItems)
+                    files.importFiles(String(picker.activeTransfer.items[0].url).replace("file://", ""))
                     PopupUtils.close(picker)
                 }
             }

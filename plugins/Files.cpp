@@ -163,3 +163,13 @@ int FilesModel::getLineHeight(QFont font) {
     QFontMetrics fm=QFontMetrics(font);
     return qMax(fm.height(), fm.lineSpacing());
 }
+
+void FilesModel::importFiles(QString fullPath) {
+    QFile file(fullPath);
+    QFileInfo fileInfo(file.fileName());
+    QString target = QDir::homePath() + "/.local/share/com.ubuntu.developer.bobo1993324.qmltextreader/Documents/" + fileInfo.fileName();
+    if (file.exists()) {
+        file.copy(target);
+    }
+    emit filesChanged();
+}
