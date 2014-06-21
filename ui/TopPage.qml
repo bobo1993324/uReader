@@ -25,7 +25,7 @@ Page {
             visible: filesList.indexOf(modelData) > -1
             height: coverHeight
             width: height * 2 / 3
-            title: modelData.substring(0, modelData.length-4) //remove .txt extension
+            title: modelData.indexOf(".") >= 0 ? modelData.substring(0, modelData.indexOf(".")) : modelData
             completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
             onClicked: {
 //                addToRecent(modelData);

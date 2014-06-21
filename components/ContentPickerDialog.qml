@@ -60,9 +60,16 @@ Component {
             onStateChanged: {
                 if (picker.activeTransfer.state === ContentTransfer.Charged) {
                     files.importFiles(String(picker.activeTransfer.items[0].url).replace("file://", ""))
-                    PopupUtils.close(picker)
+                	closeTimer.start()
                 }
             }
         }
+    Timer {
+        id: closeTimer
+        interval: 1000
+        repeat: false
+        onTriggered:
+            PopupUtils.close(picker)
+    }
     }
 }

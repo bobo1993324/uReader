@@ -8,5 +8,5 @@ cd package
 click build .
 cp *.click ..
 cd ..
-#rm -rf package
+rm -rf package
 
