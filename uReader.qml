@@ -26,7 +26,7 @@ MainView {
     width: units.gu(50)
     height: units.gu(75)
 
-    property int coverHeight: units.gu(18)
+    property int coverWidth: Math.min(units.gu(12), (width - units.gu(8)) / 3)
 
     Component.onCompleted: {
         console.log("i18n" + i18n.domain + " " + i18n.language)

@@ -23,8 +23,8 @@ Page {
         id: bookCoverCom
         BookCover{
             visible: filesList.indexOf(modelData) > -1
-            height: coverHeight
-            width: height * 2 / 3
+            height: width * 1.5
+            width: coverWidth
             title: modelData.indexOf(".") >= 0 ? modelData.substring(0, modelData.indexOf(".")) : modelData
             completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readToRatio : 0
             onClicked: {
@@ -33,19 +33,20 @@ Page {
             }
         }
     }
-
+    flickable: flick
     Flickable{
+        id: flick
         clip: true
-        width: parent.width
-        height: parent.height
+        width: parent.width - units.gu(4)
+        height: parent.height - units.gu(4)
+        anchors.centerIn: parent
 
         contentWidth: flow.width
         contentHeight: flow.height
         Flow{
             id: flow
-            spacing: units.gu(4)
-            width: parent.width - units.gu(2) * 2
-            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: units.gu(2)
+            width: parent.width
             Repeater {
                 model: filesList
                 delegate: bookCoverCom
