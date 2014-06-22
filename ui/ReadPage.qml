@@ -106,11 +106,11 @@ Page{
         if (aDocument.contents.history[fileName].totalCount != content.length) {
             currentIndexListIdx = 0;
         } else {
-            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
-            console.log("New page start is at " + indexList[currentIndexListIdx] + " " + aDocument.contents.history[fileName].readTo + " " + indexList[currentIndexListIdx + 1])
+            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readToRatio);
         }
         //load current page
-
+        if (currentIndexListIdx > indexList.length || currentIndexListIdx < 0)
+            currentIndexListIdx = 0;
         currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
         nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
         prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
@@ -121,11 +121,10 @@ Page{
 
     onFontSizeChanged: {
         var newContents = aDocument.contents
-        if (newContents.history[fileName]) {
+        if (newContents !== undefined && newContents.history[fileName]) {
             newContents.history[fileName].fontSize = fontSize;
             aDocument.contents = newContents
         }
-        //        console.log(JSON.stringify(aDocument.contents))
     }
 
     Flickable {
@@ -358,15 +357,9 @@ Page{
             saveTimer.start()
         }
     }
-    function getPageIdx(idx){
+    function getPageIdx(ratio){
         //TODO binary search
-        for (var i = 1; i < indexList.length; i++) {
-            if (idx < indexList[i]) {
-                //                console.log(indexList[i] + " " + (i-1))
-                return i - 1;
-            }
-        }
-        return 0;
+        return Math.floor(ratio * indexList.length)
     }
 
     function setNewEncoding(newEncoding){
@@ -379,7 +372,7 @@ Page{
     function saveAll(){
         var newContents = aDocument.contents
         if(newContents.history[fileName]){
-            newContents.history[fileName].readTo = indexList[currentIndexListIdx];
+            newContents.history[fileName].readToRatio = currentIndexListIdx / indexList.length;
             newContents.history[fileName].encoding = encoding;
             newContents.history[fileName].totalCount = content.length;
             aDocument.contents = newContents

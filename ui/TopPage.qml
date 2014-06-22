@@ -26,9 +26,8 @@ Page {
             height: coverHeight
             width: height * 2 / 3
             title: modelData.indexOf(".") >= 0 ? modelData.substring(0, modelData.indexOf(".")) : modelData
-            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readTo * 1.0 / aDocument.contents.history[modelData].totalCount : 0
+            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readToRatio : 0
             onClicked: {
-//                addToRecent(modelData);
                 readPage.fileName = modelData;
                 pageStack.push(readPage);
             }
@@ -40,54 +39,16 @@ Page {
         width: parent.width
         height: parent.height
 
-        contentWidth: parent.width
-        contentHeight: contentColumn.height
-        Column {
-            id: contentColumn
-            spacing: units.gu(1)
-            width: parent.width
-            anchors.fill: parent
-            anchors.topMargin: units.gu(1)
-//            ListItem.Header{
-//                text: i18n.tr("Recent")
-//                visible: aDocument.contents.recent.length > 0
-//            }
-//            Flickable{
-//                width: parent.width - units.gu(2) * 2
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                visible: aDocument.contents.recent.length > 0
-//                height: coverHeight
-//                contentHeight: coverHeight
-//                contentWidth: recentRow.width
-//                Row{
-//                    id: recentRow
-//                    height: coverHeight
-//                    spacing: units.gu(4)
-//                    visible: aDocument.contents.recent.length > 0
-//                    Repeater {
-//                        model: aDocument.contents.recent
-//                        delegate: bookCoverCom
-//                    }
-//                }
-//            }
-
-//            ListItem.Header{
-//                text: i18n.tr("Files")
-//            }
-
-            Flow{
-                spacing: units.gu(4)
-                width: parent.width - units.gu(2) * 2
-                anchors.horizontalCenter: parent.horizontalCenter
-                Repeater {
-                    model: filesList
-                    delegate: bookCoverCom
-                }
-            }
-            Rectangle{
-                width: parent.width
-                height: 1
-                color: "transparent"
+        contentWidth: flow.width
+        contentHeight: flow.height
+        Flow{
+            id: flow
+            spacing: units.gu(4)
+            width: parent.width - units.gu(2) * 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            Repeater {
+                model: filesList
+                delegate: bookCoverCom
             }
         }
     }
