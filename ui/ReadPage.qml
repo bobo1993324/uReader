@@ -27,6 +27,7 @@ Page{
 
     onHeightChanged: {
         if (readPage.visible) {
+            //progressSlider y will be set rigid
             progressSliderRect.y = height;
             timer1.start()
         }
@@ -78,6 +79,7 @@ Page{
         onTriggered: indexAndSet()
     }
     property var indexCache: ({});
+
     function indexAndSet(){
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
@@ -105,6 +107,7 @@ Page{
             currentIndexListIdx = 0;
         } else {
             currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
+            console.log("New page start is at " + indexList[currentIndexListIdx] + " " + aDocument.contents.history[fileName].readTo + " " + indexList[currentIndexListIdx + 1])
         }
         //load current page
 
@@ -320,15 +323,6 @@ Page{
 
     }
 
-    //    MyGestureArea{
-    //        id: myGestureArea
-    //        enabled: isReady
-    //        width: parent.width
-    //        height: progressSliderRect.y
-    //        onSwipeRight: prevPage()
-    //        onSwipeLeft: nextPage()
-    //    }
-
     function nextPage(){
         if(currentIndexListIdx < indexList.length -2){
             var tmp = currentScreen
@@ -394,21 +388,6 @@ Page{
     }
 
     tools:ToolbarItems{
-        //        ToolbarButton{
-        //            width: 60
-        //            action:Action{
-        //                iconSource: "../img/bookmark-add.svg"
-        //                text: "Add bookmarks"
-        //            }
-        //        }
-        //        ToolbarButton{
-        //            width: 60
-        //            action:Action{
-        //                iconSource: "../img/bookmark.svg"
-        //                text: "Bookmarks"
-        //            }
-        //        }
-
         ToolbarButton{
             action:Action{
                 iconSource: "../img/font-increase.svg"
