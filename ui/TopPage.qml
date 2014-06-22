@@ -46,7 +46,7 @@ Page {
         Flow{
             id: flow
             spacing: units.gu(2)
-            width: parent.width
+            width: flick.width
             Repeater {
                 model: filesList
                 delegate: bookCoverCom
