@@ -173,3 +173,12 @@ void FilesModel::importFiles(QString fullPath) {
     }
     emit filesChanged();
 }
+
+void FilesModel::removeFile(QString fileName) {
+    QFile f(QDir::homePath() + "/.local/share/com.ubuntu.developer.bobo1993324.qmltextreader/Documents/" + fileName);
+    qDebug() << "remove " << fileName << " " << f.exists();
+    if (f.exists()) {
+        f.remove();
+        emit filesChanged();
+    }
+}

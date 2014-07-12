@@ -4,9 +4,10 @@ UbuntuShape{
     id: root
     property string title
     property real completion: 0
-
-    signal clicked
-    signal pressAndHold
+    property bool displayDelete
+    property string fileName
+    signal openFile
+    signal deleteFile
 
 
     color: "white"
@@ -34,9 +35,40 @@ UbuntuShape{
         }
     }
 
+    UbuntuShape{
+        id: deleteButton
+        width: units.gu(4)
+        height: displayDelete ? width : 0
+        clip: true
+        color: "#65A6D1"
+        Text {
+            color: "white"
+            anchors.centerIn: parent
+            anchors.margins: units.gu(0.5)
+            text: "x"
+        }
+        Behavior on height {
+            UbuntuNumberAnimation {
+
+            }
+        }
+    }
+
     MouseArea{
         anchors.fill: parent
-        onClicked: root.clicked()
-        onPressAndHold: root.pressAndHold()
+        onClicked: {
+            if (deleteMode) {
+                if (mouse.x < deleteButton.width && mouse.y < deleteButton.height) {
+                    root.deleteFile();
+                } else {
+                    deleteMode = false;
+                }
+            } else {
+                root.openFile()
+            }
+        }
+        onPressAndHold: {
+            deleteMode = !deleteMode;
+        }
     }
 }

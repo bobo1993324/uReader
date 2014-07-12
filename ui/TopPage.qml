@@ -9,6 +9,7 @@ Page {
     id: topPage
     title: i18n.tr("QmlTextReader")
     property var filesList: files.files
+    property bool deleteMode: false
     Component.onCompleted: {
         if (filesList.length == 0) {
             PopupUtils.open(afd)
@@ -27,9 +28,13 @@ Page {
             width: coverWidth
             title: modelData.indexOf(".") >= 0 ? modelData.substring(0, modelData.indexOf(".")) : modelData
             completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readToRatio : 0
-            onClicked: {
+            displayDelete: deleteMode
+            onOpenFile: {
                 readPage.fileName = modelData;
                 pageStack.push(readPage);
+            }
+            onDeleteFile: {
+                files.removeFile(modelData);
             }
         }
     }

@@ -25,7 +25,7 @@ MainView {
     automaticOrientation: true
     width: units.gu(50)
     height: units.gu(75)
-
+    useDeprecatedToolbar: true
     property int coverWidth: Math.min(units.gu(12), (width - units.gu(8)) / 3)
 
     Component.onCompleted: {
