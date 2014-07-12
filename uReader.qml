@@ -63,10 +63,6 @@ MainView {
         id: topPage
         visible: false
     }
-    ReadPage{
-        id: readPage
-        visible: false
-    }
     HelpPage {
         id: helpPage
         visible: false

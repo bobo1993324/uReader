@@ -30,8 +30,7 @@ Page {
             completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readToRatio : 0
             displayDelete: deleteMode
             onOpenFile: {
-                readPage.fileName = modelData;
-                pageStack.push(readPage);
+                pageStack.push(Qt.resolvedUrl("./ReadPage.qml"), {fileName: modelData});
             }
             onDeleteFile: {
                 files.removeFile(modelData);
