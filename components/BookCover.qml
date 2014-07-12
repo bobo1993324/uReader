@@ -37,11 +37,11 @@ UbuntuShape{
 
     UbuntuShape{
         id: deleteButton
-        width: units.gu(4)
+        width: units.gu(3)
         height: displayDelete ? width : 0
         clip: true
         color: "#65A6D1"
-        Text {
+        Label {
             color: "white"
             anchors.centerIn: parent
             anchors.margins: units.gu(0.5)
