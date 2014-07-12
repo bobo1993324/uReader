@@ -34,6 +34,7 @@ Page{
     }
 
     onFileNameChanged: {
+        console.log("onFileNameChanged")
         isReady = false;
         var newContents = aDocument.contents
         if (!newContents.history[fileName]) {
@@ -81,15 +82,16 @@ Page{
     property var indexCache: ({});
 
     function indexAndSet(){
+        console.log("indexAndSet")
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
         else
             fontSize = units.gu(1.5)
-
-        if (indexCache[page1.height + "-" + page1.width] !== undefined) {
-            indexList = indexCache[page1.height + "-" + page1.width].indexList;
-            translatedContent = indexCache[page1.height + "-" + page1.width].translatedContent
+        console.log("font size is " + fontSize + " " + page1.font.pixelSize)
+        if (indexCache[page1.height + "-" + page1.width + "-" + fontSize] !== undefined) {
+            indexList = indexCache[page1.height + "-" + page1.width+ "-" + fontSize].indexList;
+            translatedContent = indexCache[page1.height + "-" + page1.width+ "-" + fontSize].translatedContent
         } else {
             var tmp;
             if (!wordWrap)
@@ -98,7 +100,7 @@ Page{
                 tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
             indexList = tmp[0];
             translatedContent = tmp[1];
-            indexCache[page1.height + "-" + page1.width] = {
+            indexCache[page1.height + "-" + page1.width+ "-" + fontSize] = {
                 indexList: indexList,
                 translatedContent: translatedContent
             }
@@ -120,6 +122,7 @@ Page{
     }
 
     onFontSizeChanged: {
+        console.log("onFontSizeChanged")
         var newContents = aDocument.contents
         if (newContents !== undefined && newContents.history[fileName]) {
             newContents.history[fileName].fontSize = fontSize;

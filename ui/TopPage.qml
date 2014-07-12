@@ -27,7 +27,9 @@ Page {
             height: width * 1.5
             width: coverWidth
             title: modelData.indexOf(".") >= 0 ? modelData.substring(0, modelData.indexOf(".")) : modelData
-            completion: aDocument.contents.history[modelData] ? aDocument.contents.history[modelData].readToRatio : 0
+            completion: (aDocument.contents.history[modelData]
+                         && aDocument.contents.history[modelData].readToRatio)
+                            ? aDocument.contents.history[modelData].readToRatio : 0
             displayDelete: deleteMode
             onOpenFile: {
                 pageStack.push(Qt.resolvedUrl("./ReadPage.qml"), {fileName: modelData});
