@@ -300,9 +300,9 @@ Page{
 //            console.log("onReleased")
             if (startDrag) {
 //                console.log("startDrag" + currentScreen.x)
-                if (startPosition - mouse.x > currentScreen.width / 4 && currentIndexListIdx != indexList.length - 2) {
+                if (startPosition - mouse.x > units.gu(10) && currentIndexListIdx != indexList.length - 2) {
                     nextPage();
-                } else if (startPosition - mouse.x < - currentScreen.width / 4 && currentIndexListIdx != 0) {
+                } else if (startPosition - mouse.x < - units.gu(10) && currentIndexListIdx != 0) {
                     prevPage();
                 } else {
 //                    console.log("reset")
