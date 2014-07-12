@@ -82,7 +82,7 @@ Page{
     property var indexCache: ({});
 
     function indexAndSet(){
-        console.log("indexAndSet")
+        console.log("indexAndSet" + JSON.stringify(aDocument.contents.history[fileName]))
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
@@ -113,21 +113,21 @@ Page{
         //load current page
         if (currentIndexListIdx > indexList.length || currentIndexListIdx < 0)
             currentIndexListIdx = 0;
-        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
-        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
-        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
-
+        setThreePageText();
         resetScreenPosition();
         isReady = true;
     }
 
+    function setThreePageText() {
+        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
+        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+    }
+
     onFontSizeChanged: {
         console.log("onFontSizeChanged")
-        var newContents = aDocument.contents
-        if (newContents !== undefined && newContents.history[fileName]) {
-            newContents.history[fileName].fontSize = fontSize;
-            aDocument.contents = newContents
-        }
+        timer1.start();
+        saveAll();
     }
 
     Flickable {
@@ -149,6 +149,7 @@ Page{
             font.family: "Ubuntu"
             width : parent.width
             height: parent.height
+            x: -width
 
             wrapMode: Text.NoWrap
             Behavior on x{
@@ -181,6 +182,7 @@ Page{
 
             width : parent.width
             height: parent.height
+            x: width
 
             wrapMode: Text.NoWrap
             Behavior on x{
@@ -234,7 +236,7 @@ Page{
             onValueChanged: {
                 readPage.currentIndexListIdx = Math.floor(value);
                 saveTimer.start()
-                currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
+                setThreePageText();
             }
 
             onPressedChanged: {
@@ -298,9 +300,9 @@ Page{
 //            console.log("onReleased")
             if (startDrag) {
 //                console.log("startDrag" + currentScreen.x)
-                if (startPosition - mouse.x > currentScreen.width / 4) {
+                if (startPosition - mouse.x > currentScreen.width / 4 && currentIndexListIdx != indexList.length - 2) {
                     nextPage();
-                } else if (startPosition - mouse.x < - currentScreen.width / 4) {
+                } else if (startPosition - mouse.x < - currentScreen.width / 4 && currentIndexListIdx != 0) {
                     prevPage();
                 } else {
 //                    console.log("reset")
@@ -378,9 +380,10 @@ Page{
             newContents.history[fileName].readToRatio = currentIndexListIdx / indexList.length;
             newContents.history[fileName].encoding = encoding;
             newContents.history[fileName].totalCount = content.length;
+            newContents.history[fileName].fontSize = fontSize;
             aDocument.contents = newContents
         }
-//        console.log(JSON.stringify(aDocument.contents))
+        console.log("save all " + JSON.stringify(aDocument.contents.history[fileName]))
     }
 
     tools:ToolbarItems{
@@ -391,7 +394,6 @@ Page{
                 onTriggered: {
                     isReady = false;
                     fontSize += 2;
-                    timer1.start();
                 }
             }
         }
