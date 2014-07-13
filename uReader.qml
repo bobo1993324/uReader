@@ -57,14 +57,6 @@ MainView {
     }
     PageStack{
         id: pageStack
-        Component.onCompleted: push(topPage)
-    }
-    TopPage{
-        id: topPage
-        visible: false
-    }
-    HelpPage {
-        id: helpPage
-        visible: false
+        Component.onCompleted: push(Qt.resolvedUrl("ui/TopPage.qml"))
     }
 }

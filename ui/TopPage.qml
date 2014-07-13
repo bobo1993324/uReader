@@ -39,7 +39,6 @@ Page {
             }
         }
     }
-    flickable: flick
     Flickable{
         id: flick
         clip: true
@@ -83,7 +82,7 @@ Page {
             action: Action{
                 text: i18n.tr("Help")
                 iconSource: "../img/help.svg"
-                onTriggered: pageStack.push(helpPage);
+                onTriggered: pageStack.push(Qt.resolvedUrl("./HelpPage.qml"));
             }
         }
         ToolbarButton {
