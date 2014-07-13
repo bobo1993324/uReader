@@ -22,11 +22,17 @@ Page{
     property bool wordWrap
     property bool isReady
     onWidthChanged: {
-        timer1.start()
+        if (readPage.visible) {
+            isReady = false;
+            //progressSlider y will be set rigid
+            progressSliderRect.y = height;
+            timer1.start()
+        }
     }
 
     onHeightChanged: {
         if (readPage.visible) {
+            isReady = false;
             //progressSlider y will be set rigid
             progressSliderRect.y = height;
             timer1.start()
@@ -76,7 +82,7 @@ Page{
     Timer {
         id: timer1
         repeat: false
-        interval: 1000
+        interval: 1
         onTriggered: indexAndSet()
     }
     property var indexCache: ({});
