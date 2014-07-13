@@ -82,13 +82,13 @@ Page{
     Timer {
         id: timer1
         repeat: false
-        interval: 1
+        interval: 1000
         onTriggered: indexAndSet()
     }
     property var indexCache: ({});
 
     function indexAndSet(){
-        console.log("indexAndSet" + JSON.stringify(aDocument.contents.history[fileName]))
+        console.log("indexAndSet" + JSON.stringify(aDocument.contents.history[fileName] + " " + page1.height + " " + page1.width + " " + fontSize))
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
