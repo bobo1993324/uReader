@@ -92,8 +92,6 @@ Page{
         isReady = false;
         if (aDocument.contents.history[fileName].fontSize)
             fontSize = aDocument.contents.history[fileName].fontSize;
-        else
-            fontSize = units.gu(1.5)
         console.log("font size is " + fontSize + " " + page1.font.pixelSize)
         if (indexCache[page1.height + "-" + page1.width + "-" + fontSize] !== undefined) {
             indexList = indexCache[page1.height + "-" + page1.width+ "-" + fontSize].indexList;
@@ -399,7 +397,7 @@ Page{
                 text: i18n.tr("Font +")
                 onTriggered: {
                     isReady = false;
-                    fontSize += 2;
+                    fontSize += units.gu(0.25);
                 }
             }
         }
@@ -410,7 +408,7 @@ Page{
                 text: i18n.tr("Font -")
                 onTriggered: {
                     isReady = false;
-                    fontSize -= 2;
+                    fontSize -= units.gu(0.25);
                     timer1.start();
                 }
             }
