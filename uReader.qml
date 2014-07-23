@@ -33,8 +33,12 @@ MainView {
         i18n.bindtextdomain(i18n.domain, "./locale")
     }
 
-    FilesModel{
+    FilesModel {
         id: files
+    }
+
+    WrapTextUtils {
+        id: wrapTextUtils
     }
 
     Style{
@@ -58,5 +62,4 @@ MainView {
     PageStack{
         id: pageStack
         Component.onCompleted: push(Qt.resolvedUrl("ui/TopPage.qml"))
-    }
-}
+    }}

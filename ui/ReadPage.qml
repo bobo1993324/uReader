@@ -16,7 +16,7 @@ Page{
     property string translatedContent; //original content with endline added
     property int mARGIN : units.gu(4)
     property int fontSize: FontUtils.sizeToPixels("medium")
-    property int textLineHeight: files.getLineHeight(page0.font) * textLineSpace
+    property int textLineHeight: wrapTextUtils.getLineHeight(page0.font) * textLineSpace
     property real textLineSpace: 1.2
     property string encoding
     property bool wordWrap
@@ -99,9 +99,9 @@ Page{
         } else {
             var tmp;
             if (!wordWrap)
-                tmp = files.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
+                tmp = wrapTextUtils.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
             else
-                tmp = files.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
+                tmp = wrapTextUtils.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
             indexList = tmp[0];
             translatedContent = tmp[1];
             indexCache[page1.height + "-" + page1.width+ "-" + fontSize] = {
