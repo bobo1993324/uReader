@@ -5,14 +5,16 @@ QVariantList WrapTextUtiles::indexTxtWrapped(QFont font, int height, int width, 
     qDebug() << font << " " << height << " " << width << " " << text.length();
     QString qsb;
 
-    QVariantList list;
+    QVariantList translatedIndexList;
+    QVariantList originalIndexList;
     QFontMetrics fm=QFontMetrics(font);
     int PageLineNum = height / (qMax(fm.height(), fm.lineSpacing()) * lineSpace);
     qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
     int PageLineNow = 0;
     int LineWidthNow = 0;
     int newPageOffset=0;
-    list.append(0);
+    translatedIndexList.append(0);
+    originalIndexList.append(0);
     int FileContentSize = text.size();
     int wordWidth = 0;
     QString word = "";
@@ -48,17 +50,20 @@ QVariantList WrapTextUtiles::indexTxtWrapped(QFont font, int height, int width, 
 
             if (PageLineNow >= PageLineNum) {
                 PageLineNow = 0;
-                list.append(newPageOffset);
+                translatedIndexList.append(newPageOffset);
+                originalIndexList.append(offset);
             }
         } else {
             word += text[offset];
             wordWidth += fm.width(text[offset]);
         }
     }
-    if(list.last() != FileContentSize || FileContentSize == 0)
-        list.append(qsb.size());
+    if(translatedIndexList.last() != FileContentSize || FileContentSize == 0) {
+        translatedIndexList.append(qsb.size());
+        originalIndexList.append(FileContentSize);
+    }
     QVariantList returnVal;
-    returnVal << QVariant(list) << QVariant(qsb);
+    returnVal << QVariant(translatedIndexList) << QVariant(qsb) << QVariant(originalIndexList);
     return returnVal;
 
 }
@@ -68,14 +73,16 @@ QVariantList WrapTextUtiles::indexTxt(QFont font, int height, int width, QString
 
     QString qsb;
 
-    QVariantList list;
+    QVariantList translatedIndexList;
+    QVariantList originalIndexList;
     QFontMetrics fm=QFontMetrics(font);
     int PageLineNum = height / (qMax(fm.height(), fm.lineSpacing()) * lineSpace);
     qDebug() << fm.lineSpacing() << fm.height() << PageLineNum;
     int PageLineNow = 0;
     int LineWidthNow = 0;
     int newPageOffset=0;
-    list.append(0);
+    translatedIndexList.append(0);
+    originalIndexList.append(0);
     int FileContentSize = text.size();
     //    int i = 0;
     for (int offset = 0; offset < FileContentSize; offset++){
@@ -101,13 +108,16 @@ QVariantList WrapTextUtiles::indexTxt(QFont font, int height, int width, QString
 
         if (PageLineNow >= PageLineNum) {
             PageLineNow = 0;
-            list.append(newPageOffset);
+            translatedIndexList.append(newPageOffset);
+            originalIndexList.append(offset);
         }
     }
-    if(list.last() != FileContentSize || FileContentSize == 0)
-        list.append(qsb.size());
+    if(translatedIndexList.last() != FileContentSize || FileContentSize == 0) {
+        translatedIndexList.append(qsb.size());
+        originalIndexList.append(FileContentSize);
+    }
     QVariantList returnVal;
-    returnVal << QVariant(list) << QVariant(qsb);
+    returnVal << QVariant(translatedIndexList) << QVariant(qsb) << QVariant(originalIndexList);
     return returnVal;
 }
 

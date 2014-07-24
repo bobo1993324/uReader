@@ -1,4 +1,4 @@
-import QtQuick 2.0
+    import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../components"
 import Ubuntu.Components.Popups 0.1
@@ -7,7 +7,8 @@ Page{
     id: readPage
     property var pageList : [page0, page1, page2]
     property var fileName
-    property var indexList
+    property var translatedIndexList
+    property var originalIndexList
     property var currentScreen : page1
     property var prevScreen : page0
     property var nextScreen : page2
@@ -94,28 +95,33 @@ Page{
             fontSize = aDocument.contents.history[fileName].fontSize;
         console.log("font size is " + fontSize + " " + page1.font.pixelSize)
         if (indexCache[page1.height + "-" + page1.width + "-" + fontSize] !== undefined) {
-            indexList = indexCache[page1.height + "-" + page1.width+ "-" + fontSize].indexList;
-            translatedContent = indexCache[page1.height + "-" + page1.width+ "-" + fontSize].translatedContent
+            var cacheKey = page1.height + "-" + page1.width+ "-" + fontSize;
+            var cacheObject = indexCache[cacheKey];
+            translatedIndexList = cacheObject.indexList;
+            translatedContent = cacheObject.translatedContent;
+            originalIndexList = cacheObject.originalIndexList;
         } else {
             var tmp;
             if (!wordWrap)
                 tmp = wrapTextUtils.indexTxt(page1.font, page1.height, page1.width, content, textLineSpace);
             else
                 tmp = wrapTextUtils.indexTxtWrapped(page1.font, page1.height, page1.width, content, textLineSpace);
-            indexList = tmp[0];
+            translatedIndexList = tmp[0];
             translatedContent = tmp[1];
+            originalIndexList = tmp[2];
             indexCache[page1.height + "-" + page1.width+ "-" + fontSize] = {
-                indexList: indexList,
-                translatedContent: translatedContent
+                indexList: translatedIndexList,
+                translatedContent: translatedContent,
+                originalIndexList: originalIndexList
             }
         }
-        if (aDocument.contents.history[fileName].totalCount != content.length) {
+        if (aDocument.contents.history[fileName].totalCount !== content.length) {
             currentIndexListIdx = 0;
         } else {
-            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readToRatio);
+            currentIndexListIdx = getPageIdx(aDocument.contents.history[fileName].readTo);
         }
         //load current page
-        if (currentIndexListIdx > indexList.length || currentIndexListIdx < 0)
+        if (currentIndexListIdx >= translatedIndexList.length || currentIndexListIdx < 0)
             currentIndexListIdx = 0;
         setThreePageText();
         resetScreenPosition();
@@ -123,9 +129,9 @@ Page{
     }
 
     function setThreePageText() {
-        currentScreen.text = translatedContent.substring(indexList[currentIndexListIdx], indexList[currentIndexListIdx + 1]);
-        nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 1], indexList[currentIndexListIdx + 2]);
-        prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 1], indexList[currentIndexListIdx]);
+        currentScreen.text = translatedContent.substring(translatedIndexList[currentIndexListIdx], translatedIndexList[currentIndexListIdx + 1]);
+        nextScreen.text = translatedContent.substring(translatedIndexList[currentIndexListIdx + 1], translatedIndexList[currentIndexListIdx + 2]);
+        prevScreen.text = translatedContent.substring(translatedIndexList[currentIndexListIdx - 1], translatedIndexList[currentIndexListIdx]);
     }
 
     onFontSizeChanged: {
@@ -214,7 +220,7 @@ Page{
             Rectangle{
                 id: progressRec1
                 height: parent.height
-                width: parent.width * currentIndexListIdx / (indexList.length - 2)
+                width: parent.width * currentIndexListIdx / (translatedIndexList.length - 2)
                 color: "#0A67A3"
             }
 
@@ -233,7 +239,7 @@ Page{
             id: progressSlider
             function formatValue(v) { return Math.floor(v * 100 / maximumValue) + "%"}
             minimumValue: 0
-            maximumValue: indexList.length - 2
+            maximumValue: translatedIndexList.length - 2
             live: false
             width: parent.width - mARGIN * 2
             anchors.horizontalCenter: parent.horizontalCenter
@@ -304,7 +310,7 @@ Page{
 //            console.log("onReleased")
             if (startDrag) {
 //                console.log("startDrag" + currentScreen.x)
-                if (startPosition - mouse.x > units.gu(10) && currentIndexListIdx != indexList.length - 2) {
+                if (startPosition - mouse.x > units.gu(10) && currentIndexListIdx != translatedIndexList.length - 2) {
                     nextPage();
                 } else if (startPosition - mouse.x < - units.gu(10) && currentIndexListIdx != 0) {
                     prevPage();
@@ -332,7 +338,7 @@ Page{
     }
 
     function nextPage(){
-        if(currentIndexListIdx < indexList.length -2){
+        if(currentIndexListIdx < translatedIndexList.length -2){
             var tmp = currentScreen
             currentScreen = nextScreen
             nextScreen = prevScreen
@@ -343,7 +349,7 @@ Page{
             nextScreen.visible = false;
             resetScreenPosition();
 
-            nextScreen.text = translatedContent.substring(indexList[currentIndexListIdx + 2], indexList[currentIndexListIdx + 3]);
+            nextScreen.text = translatedContent.substring(translatedIndexList[currentIndexListIdx + 2], translatedIndexList[currentIndexListIdx + 3]);
             currentIndexListIdx ++;
             saveTimer.start();
         }
@@ -361,14 +367,20 @@ Page{
             nextScreen.visible = true;
             resetScreenPosition();
 
-            prevScreen.text = translatedContent.substring(indexList[currentIndexListIdx - 2], indexList[currentIndexListIdx - 1]);
+            prevScreen.text = translatedContent.substring(translatedIndexList[currentIndexListIdx - 2], translatedIndexList[currentIndexListIdx - 1]);
             currentIndexListIdx --;
             saveTimer.start()
         }
     }
-    function getPageIdx(ratio){
-        //TODO binary search
-        return Math.floor(ratio * indexList.length)
+    function getPageIdx(originalIndex){
+        console.debug("getPageIdx called with " + originalIndex);
+        for (var i = 0; i < originalIndexList.length; i++) {
+            if (originalIndex < originalIndexList[i]) {
+                console.debug("getPageIdx return " + (i - 1) + " " + originalIndexList[i - 1] + " " + originalIndexList[i]);
+                return i - 1;
+            }
+        }
+        return 0;
     }
 
     function setNewEncoding(newEncoding){
@@ -381,7 +393,7 @@ Page{
     function saveAll(){
         var newContents = aDocument.contents
         if(newContents.history[fileName]){
-            newContents.history[fileName].readToRatio = currentIndexListIdx / indexList.length;
+            newContents.history[fileName].readTo = originalIndexList[currentIndexListIdx];
             newContents.history[fileName].encoding = encoding;
             newContents.history[fileName].totalCount = content.length;
             newContents.history[fileName].fontSize = fontSize;
