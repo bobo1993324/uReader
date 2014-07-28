@@ -22,6 +22,7 @@ Page{
     property string encoding
     property bool wordWrap
     property bool isReady
+    property double readToRatio: currentIndexListIdx / (translatedIndexList.length - 2)
     onWidthChanged: {
         if (readPage.visible) {
             isReady = false;
@@ -220,7 +221,7 @@ Page{
             Rectangle{
                 id: progressRec1
                 height: parent.height
-                width: parent.width * currentIndexListIdx / (translatedIndexList.length - 2)
+                width: parent.width * readToRatio
                 color: "#0A67A3"
             }
 
@@ -329,8 +330,11 @@ Page{
                 } else if (mouse.x > width * 0.7) {
 //                    console.log("clicked right")
                     nextPage();
-                } else if (!readPage.toolbar.animating){
-                    readPage.toolbar.open();
+                } else if (!tools.animating){
+                    if (tools.opened)
+                        tools.close();
+                    else
+                        tools.open();
                 }
             }
         }
@@ -397,67 +401,94 @@ Page{
             newContents.history[fileName].encoding = encoding;
             newContents.history[fileName].totalCount = content.length;
             newContents.history[fileName].fontSize = fontSize;
+            newContents.history[fileName].readToRatio = readToRatio
             aDocument.contents = newContents
         }
         console.log("save all " + JSON.stringify(aDocument.contents.history[fileName]))
     }
 
-    tools:ToolbarItems{
-        ToolbarButton{
-            action:Action{
-                iconSource: "../img/font-increase.svg"
-                text: i18n.tr("Font +")
-                onTriggered: {
-                    isReady = false;
-                    fontSize += units.gu(0.25);
-                }
-            }
+    Panel {
+        id: tools
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        height: units.gu(8)
+
+        Component.onCompleted: {
+            tools.open();
+            closeToolbarTimer.start();
+        }
+        Rectangle {
+            anchors.fill: parent
+            color: "white"
         }
 
-        ToolbarButton{
-            action:Action{
-                iconSource: "../img/font-decrease.svg"
-                text: i18n.tr("Font -")
-                onTriggered: {
-                    isReady = false;
-                    fontSize -= units.gu(0.25);
-                    timer1.start();
-                }
-            }
+        Timer {
+            id: closeToolbarTimer
+            interval: 2000
+            repeat: false
+            onTriggered: tools.close()
         }
 
-        ToolbarButton{
-            action:Action{
-                iconSource: "../img/jump.svg"
-                text: i18n.tr("Jump to")
-                onTriggered: {
-                    progressSlider.value = currentIndexListIdx
-                    progressSlider.disappearTime = 4;
-                    progressDisappearTimer.start();
-                    progressSliderRect.y = readPage.height - progressSliderRect.height
-                    readPage.toolbar.close()
-
+        ToolbarItems{
+            ToolbarButton{
+                action:Action{
+                    iconSource: "../img/font-increase.svg"
+                    text: i18n.tr("Font +")
+                    onTriggered: {
+                        isReady = false;
+                        fontSize += units.gu(0.25);
+                    }
                 }
             }
-        }
 
-        ToolbarButton{
-            id: encodingButton
-            action: Action{
-                iconSource: "../img/encoding.svg"
-                text: i18n.tr("Encoding")
-                onTriggered: {
-                    PopupUtils.open(encodingPopover, encodingButton);
+            ToolbarButton{
+                action:Action{
+                    iconSource: "../img/font-decrease.svg"
+                    text: i18n.tr("Font -")
+                    onTriggered: {
+                        isReady = false;
+                        fontSize -= units.gu(0.25);
+                        timer1.start();
+                    }
                 }
             }
-        }
 
-        back: ToolbarButton{
-            action: Action{
-                text: i18n.tr("Back")
-                iconSource: "../img/back.svg"
-                onTriggered:{
-                    pageStack.pop();
+            ToolbarButton{
+                action:Action{
+                    iconSource: "../img/jump.svg"
+                    text: i18n.tr("Jump to")
+                    onTriggered: {
+                        progressSlider.value = currentIndexListIdx
+                        progressSlider.disappearTime = 4;
+                        progressDisappearTimer.start();
+                        progressSliderRect.y = readPage.height - progressSliderRect.height
+                        tools.close()
+
+                    }
+                }
+            }
+
+            ToolbarButton{
+                id: encodingButton
+                action: Action{
+                    iconSource: "../img/encoding.svg"
+                    text: i18n.tr("Encoding")
+                    onTriggered: {
+                        PopupUtils.open(encodingPopover, encodingButton);
+                    }
+                }
+            }
+
+            back: ToolbarButton{
+                action: Action{
+                    text: i18n.tr("Back")
+                    iconSource: "../img/back.svg"
+                    onTriggered:{
+                        pageStack.pop();
+                    }
                 }
             }
         }
