@@ -5,10 +5,23 @@ Component {
     id: dialog
     Dialog {
         id: dialogue
-        text: i18n.tr("No files found. Copy txt files to '~/.local/share/com.ubuntu.developer.bobo1993324.qmltextreader/Documents' and restart the application.")
-        Button {
-            text: "Close"
-            onClicked: PopupUtils.close(dialogue)
+        title: i18n.tr("No files Imported.")
+        Column {
+            spacing: units.gu(2)
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: i18n.tr("Import")
+                onClicked: {
+                    PopupUtils.close(dialogue)
+                    PopupUtils.open(cpd)
+                }
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: i18n.tr("Close")
+                onClicked: PopupUtils.close(dialogue)
+            }
         }
     }
 }

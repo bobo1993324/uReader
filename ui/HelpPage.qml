@@ -5,7 +5,10 @@ Page {
     Label{
         width: parent.width- units.gu(2) * 2
         anchors.horizontalCenter: parent.horizontalCenter
-        text: i18n.tr("\nWelcome to QmlTextReader.\nThis is a reader for txt file, for novel reading.\n\nTo add a file, put it under path '~/.local/share/\ncom.ubuntu.developer.\nbobo1993324.qmltextreader/Documents'. \nTo turn page in the reading mode, either click on the right or left, or swipe right or left.\n\nAny feature request or bug report is appreciated. If do, mail to bobo1993324@gmail.com.")
+        text: i18n.tr("\nWelcome to QmlTextReader.This is a reader for text file, for reading novels. \
+\nTo turn page in the reading mode, either click on the right or left, or swipe right or left. \
+\n\nAny feature request or bug report is appreciated. \
+If do, mail to bobo1993324@gmail.com or submit issue at https://github.com/bobo1993324/uReader.")
         wrapMode: Text.WordWrap
     }
 }

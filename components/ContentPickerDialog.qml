@@ -27,15 +27,15 @@ Component {
         id: picker
         property var activeTransfer
         property var selectedItems
-    
+
         Rectangle {
             anchors.fill: parent
-    
+
             ContentTransferHint {
                 anchors.fill: parent
                 activeTransfer: picker.activeTransfer
             }
-    
+
             ContentPeerPicker {
                 id: peerPicker
                 anchors.fill: parent
@@ -48,28 +48,28 @@ Component {
                     picker.activeTransfer = peer.request()
                     stateChangeConnection.target = picker.activeTransfer
                 }
-    
+
                 onCancelPressed: {
                     PopupUtils.close(picker)
                 }
             }
         }
-    
+
         Connections {
             id: stateChangeConnection
             onStateChanged: {
                 if (picker.activeTransfer.state === ContentTransfer.Charged) {
                     files.importFiles(String(picker.activeTransfer.items[0].url).replace("file://", ""))
-                	closeTimer.start()
+                    closeTimer.start()
                 }
             }
         }
-    Timer {
-        id: closeTimer
-        interval: 1000
-        repeat: false
-        onTriggered:
-            PopupUtils.close(picker)
-    }
+        Timer {
+            id: closeTimer
+            interval: 1000
+            repeat: false
+            onTriggered:
+                PopupUtils.close(picker)
+        }
     }
 }

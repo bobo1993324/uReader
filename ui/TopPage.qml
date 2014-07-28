@@ -93,10 +93,7 @@ Page {
             }
         }
     }
-//    ContentImport {
-//        id: contentImport
-//        onRequestCompleted: console.log(contentImport.importItems[0].url)
-//    }
+
     ContentPickerDialog {
         id: cpd
     }

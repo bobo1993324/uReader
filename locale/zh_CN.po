@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-27 14:25-0400\n"
+"POT-Creation-Date: 2014-07-27 18:36-0700\n"
 "PO-Revision-Date: 2014-03-18 23:50-0400\n"
 "Last-Translator: Luke <bobo1993324@gmail.com>\n"
 "Language-Team: English\n"
@@ -20,45 +20,40 @@ msgstr ""
 #: ui/HelpPage.qml:8
 msgid ""
 "\n"
-"Welcome to QmlTextReader.\n"
-"This is a reader for txt file, for novel reading.\n"
-"\n"
-"To add a file, put it under path '~/.local/share/\n"
-"com.ubuntu.developer.\n"
-"bobo1993324.qmltextreader/Documents'. \n"
+"Welcome to QmlTextReader.This is a reader for text file, for reading "
+"novels. \n"
 "To turn page in the reading mode, either click on the right or left, or "
-"swipe right or left.\n"
+"swipe right or left. \n"
 "\n"
 "Any feature request or bug report is appreciated. If do, mail to "
-"bobo1993324@gmail.com."
+"bobo1993324@gmail.com or submit issue at https://github.com/bobo1993324/"
+"uReader."
 msgstr ""
 "\n"
 "Qml文本阅读\n"
 "这是一个txt小说阅读器\n"
 "\n"
-"把txt文件放到~/.local/share/com.ubuntu.developer.\n"
-"bobo1993324.qmltextreader/Documents目录下\n"
 "翻页要么点左边，要么点右边，要么左右滑\n"
 "\n"
-"任何问题，邮bobo1993324@gmail.com"
+"任何问题，邮bobo1993324@gmail.com或写在https://github.com/bobo1993324/uReader"
 
-#: ui/ReadPage.qml:405
+#: ui/ReadPage.qml:439
 msgid "Font +"
 msgstr "放大"
 
-#: ui/ReadPage.qml:417
+#: ui/ReadPage.qml:450
 msgid "Font -"
 msgstr "缩小"
 
-#: ui/ReadPage.qml:429
+#: ui/ReadPage.qml:462
 msgid "Jump to"
 msgstr "跳转"
 
-#: ui/ReadPage.qml:445
+#: ui/ReadPage.qml:478
 msgid "Encoding"
 msgstr "编码"
 
-#: ui/ReadPage.qml:454
+#: ui/ReadPage.qml:487
 msgid "Back"
 msgstr "返回"
 
@@ -66,17 +61,21 @@ msgstr "返回"
 msgid "QmlTextReader"
 msgstr "Qml文本阅读器"
 
-#: ui/TopPage.qml:117
+#: ui/TopPage.qml:83
 msgid "Help"
 msgstr "帮助"
 
+#: ui/TopPage.qml:90 components/AddFileDialogue.qml:13
+msgid "Import"
+msgstr "导入"
+
 #: components/AddFileDialogue.qml:8
-msgid ""
-"No files found. Copy txt files to '~/.local/share/com.ubuntu.developer."
-"bobo1993324.qmltextreader/Documents' and restart the application."
-msgstr ""
-"没有找到文件，把txt文件放到~/.local/share/com.ubuntu.developer.bobo1993324."
-"qmltextreader/Documents目录下，然后重启程序。"
+msgid "No files Imported."
+msgstr "未导入文件"
+
+#: components/AddFileDialogue.qml:22
+msgid "Close"
+msgstr "关闭"
 
 #: components/EncodingPopover.qml:11
 msgid "UTF-8 (Universal)"
@@ -85,62 +84,3 @@ msgstr "UTF-8 (通用)"
 #: components/EncodingPopover.qml:19
 msgid "GB2312 (Chinese)"
 msgstr "GB2312 (中文)"
-
-#~ msgid ""
-#~ "\n"
-#~ "Welcome to QmlTextReader.\n"
-#~ "This is a reader for txt file, for novel reading.\n"
-#~ "\n"
-#~ "To add a file, put it under path '~/.local/share/com.ubuntu.developer."
-#~ "bobo1993324.qmltextreader/Documents'. \n"
-#~ "To turn page in the reading mode, either click on the right or left, or "
-#~ "swipe right or left.\n"
-#~ "\n"
-#~ "Any feature request or bug report is appreciated. If do, mail to "
-#~ "bobo1993324@gmail.com."
-#~ msgstr ""
-#~ "\n"
-#~ "Qml文本阅读\n"
-#~ "这是一个txt小说阅读器\n"
-#~ "\n"
-#~ "把txt文件放到~/.local/share/com.ubuntu.developer.bobo1993324."
-#~ "qmltextreader/Documents目录下\n"
-#~ "翻页要么点左边，要么点右边，要么左右滑\n"
-#~ "\n"
-#~ "任何问题，邮bobo1993324@gmail.com"
-
-#~ msgid "Recent"
-#~ msgstr "最近"
-
-#~ msgid "Files"
-#~ msgstr "所有文件"
-
-#~ msgid ""
-#~ "\n"
-#~ "Welcome to QmlTextReader.\n"
-#~ "This is a reader for txt file, for novel reading.\n"
-#~ "\n"
-#~ "To add a file, put it under path '~/.local/share/com.bobo-324."
-#~ "qmltextreader/Documents'. \n"
-#~ "To turn page in the reading mode, either click on the right or left, or "
-#~ "swipe right or left.\n"
-#~ "\n"
-#~ "Any feature request or bug report is appreciated. If do, mail to "
-#~ "bobo1993324@gmail.com."
-#~ msgstr ""
-#~ "\n"
-#~ "Qml文本阅读\n"
-#~ "这是一个txt小说阅读器\n"
-#~ "\n"
-#~ "把txt文件放到~/.local/share/com.ubuntu.developer.bobo1993324."
-#~ "qmltextreader/Documents目录下\n"
-#~ "翻页要么点左边，要么点右边，要么左右滑\n"
-#~ "\n"
-#~ "任何问题，邮bobo1993324@gmail.com"
-
-#~ msgid ""
-#~ "No files found. Copy txt files to '~/.local/share/com.bobo-324."
-#~ "qmltextreader/Documents' and restart the application."
-#~ msgstr ""
-#~ "没有找到文件，把txt文件放到~/.local/share/com.bobo-324.qmltextreader/"
-#~ "Documents目录下，然后重启程序。"

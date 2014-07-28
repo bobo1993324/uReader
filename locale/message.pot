@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-27 14:25-0400\n"
+"POT-Creation-Date: 2014-07-27 18:36-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,36 +20,33 @@ msgstr ""
 #: ui/HelpPage.qml:8
 msgid ""
 "\n"
-"Welcome to QmlTextReader.\n"
-"This is a reader for txt file, for novel reading.\n"
-"\n"
-"To add a file, put it under path '~/.local/share/\n"
-"com.ubuntu.developer.\n"
-"bobo1993324.qmltextreader/Documents'. \n"
+"Welcome to QmlTextReader.This is a reader for text file, for reading "
+"novels. \n"
 "To turn page in the reading mode, either click on the right or left, or "
-"swipe right or left.\n"
+"swipe right or left. \n"
 "\n"
 "Any feature request or bug report is appreciated. If do, mail to "
-"bobo1993324@gmail.com."
+"bobo1993324@gmail.com or submit issue at https://github.com/bobo1993324/"
+"uReader."
 msgstr ""
 
-#: ui/ReadPage.qml:405
+#: ui/ReadPage.qml:439
 msgid "Font +"
 msgstr ""
 
-#: ui/ReadPage.qml:417
+#: ui/ReadPage.qml:450
 msgid "Font -"
 msgstr ""
 
-#: ui/ReadPage.qml:429
+#: ui/ReadPage.qml:462
 msgid "Jump to"
 msgstr ""
 
-#: ui/ReadPage.qml:445
+#: ui/ReadPage.qml:478
 msgid "Encoding"
 msgstr ""
 
-#: ui/ReadPage.qml:454
+#: ui/ReadPage.qml:487
 msgid "Back"
 msgstr ""
 
@@ -57,14 +54,20 @@ msgstr ""
 msgid "QmlTextReader"
 msgstr ""
 
-#: ui/TopPage.qml:117
+#: ui/TopPage.qml:83
 msgid "Help"
 msgstr ""
 
+#: ui/TopPage.qml:90 components/AddFileDialogue.qml:13
+msgid "Import"
+msgstr ""
+
 #: components/AddFileDialogue.qml:8
-msgid ""
-"No files found. Copy txt files to '~/.local/share/com.ubuntu.developer."
-"bobo1993324.qmltextreader/Documents' and restart the application."
+msgid "No files Imported."
+msgstr ""
+
+#: components/AddFileDialogue.qml:22
+msgid "Close"
 msgstr ""
 
 #: components/EncodingPopover.qml:11
