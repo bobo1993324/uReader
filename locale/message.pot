@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-27 18:36-0700\n"
+"POT-Creation-Date: 2014-07-31 00:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ui/HelpPage.qml:4 ui/TopPage.qml:83
+msgid "Help"
+msgstr ""
 
 #: ui/HelpPage.qml:8
 msgid ""
@@ -52,10 +56,6 @@ msgstr ""
 
 #: ui/TopPage.qml:10
 msgid "QmlTextReader"
-msgstr ""
-
-#: ui/TopPage.qml:83
-msgid "Help"
 msgstr ""
 
 #: ui/TopPage.qml:90 components/AddFileDialogue.qml:13

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 Page {
-    title: "Help"
+    title: i18n.tr("Help")
     Label{
         width: parent.width- units.gu(2) * 2
         anchors.horizontalCenter: parent.horizontalCenter

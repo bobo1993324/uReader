@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-27 18:36-0700\n"
+"POT-Creation-Date: 2014-07-31 00:02+0800\n"
 "PO-Revision-Date: 2014-03-18 23:50-0400\n"
 "Last-Translator: Luke <bobo1993324@gmail.com>\n"
 "Language-Team: English\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ui/HelpPage.qml:4 ui/TopPage.qml:83
+msgid "Help"
+msgstr "帮助"
 
 #: ui/HelpPage.qml:8
 msgid ""
@@ -60,10 +64,6 @@ msgstr "返回"
 #: ui/TopPage.qml:10
 msgid "QmlTextReader"
 msgstr "Qml文本阅读器"
-
-#: ui/TopPage.qml:83
-msgid "Help"
-msgstr "帮助"
 
 #: ui/TopPage.qml:90 components/AddFileDialogue.qml:13
 msgid "Import"

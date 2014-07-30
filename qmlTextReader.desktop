@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=qmlTextReader
+Name[zh_CN]=qml文本阅读器
 Exec=qmlscene ./uReader.qml -I ./plugins
 Icon=./logo.png
 Terminal=false
